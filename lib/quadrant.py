@@ -182,3 +182,9 @@ class Quadrant:
 			
 	def qmedian(self):
 		return median(transpose([inst.datum for inst in self.instances])[-1])
+
+	def is_adjacent(self, other_quadrant):
+		if ((self.xmin == other_quadrant.xmax) or (self.xmax == other_quadrant.xmin)) or ((self.ymin == other_quadrant.ymax) or (self.ymax == other_quadrant.ymin)):
+			return True
+		else:
+			return False

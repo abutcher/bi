@@ -11,6 +11,7 @@ from arff import *
 from quadrant import *
 from instance import *
 from util import *
+from NaiveBayes import *
 
 from copy import deepcopy
 from scipy import linspace, polyval, polyfit, sqrt, stats, randn
@@ -33,9 +34,9 @@ class Widget:
         self.btrends = Button(self.axtrends, 'Trends')
         self.btrends.on_clicked(self.trends)
 
-        self.axsummarization = self.fig.add_axes([0.75, 0.3, 0.2, 0.05])
-        self.bsummarization = Button(self.axsummarization, 'Summarization')
-        self.bsummarization.on_clicked(self.summarization)
+        self.axalerts = self.fig.add_axes([0.75, 0.3, 0.2, 0.05])
+        self.balerts = Button(self.axalerts, 'Alerts')
+        self.balerts.on_clicked(self.alerts)
 
         self.axoverlays = self.fig.add_axes([0.75, 0.2, 0.2, 0.05])
         self.boverlays = Button(self.axoverlays, 'Overlays')
@@ -64,10 +65,45 @@ class Widget:
             self.color_quadrants([quadrant], 'white')
 
     def draw_canvas_quadrants_overlay(self):
-        quadrants = sorted(self.quadrants, key=lambda quad: quad.qmedian(), reverse=True)        
-        colors = self.make_n_colors(cm.RdYlGn, len(quadrants)*5)
+        # What I'm doing here is making 8 ranges for effort scores
+        # based on the scores from all quadrants. There are then 8
+        # colors with which to color each quadrant. Going from really
+        # green to really red. Good = really green, bad = really red.
+
+        effort = [quadrant.qmedian() for quadrant in self.quadrants]
+        range_length = int(len(effort)/8)
+
+        effort = sorted(effort)
+
+        range1 = effort[range_length]
+        range2 = effort[range_length*2]
+        range3 = effort[range_length*3]
+        range4 = effort[range_length*4]
+        range5 = effort[range_length*5]
+        range6 = effort[range_length*6]
+        range7 = effort[range_length*7]
+        range8 = effort[-1]
+
+        greens = self.make_n_colors(cm.Greens_r, 80)
+        reds = self.make_n_colors(cm.Reds, 240)
+
         for quadrant in self.quadrants:
-            self.color_quadrants([quadrant], colors[quadrants.index(quadrant)*5])
+            if quadrant.qmedian() < range1:
+                self.color_quadrants([quadrant], greens[0])
+            elif quadrant.qmedian() < range2:
+                self.color_quadrants([quadrant], greens[19])
+            elif quadrant.qmedian() < range3:
+                self.color_quadrants([quadrant], greens[39])
+            elif quadrant.qmedian() < range4:
+                self.color_quadrants([quadrant], greens[59])
+            elif quadrant.qmedian() < range5:
+                self.color_quadrants([quadrant], reds[60])
+            elif quadrant.qmedian() < range6:
+                self.color_quadrants([quadrant], reds[120])
+            elif quadrant.qmedian() < range7:
+                self.color_quadrants([quadrant], reds[180])
+            else:
+                self.color_quadrants([quadrant], reds[239])
 
     def annotate_quadrant(self, quadrant):
         xmin = quadrant.xmin
@@ -162,8 +198,31 @@ class Widget:
             
         plt.draw()
 
-    def summarization(self, event):
-        self.clear_canvas()
+    def alerts(self, event):
+        datums = []
+        for quadrant in self.quadrants:
+            for instance in quadrant.instances:
+                datums.extend([instance.datum[0:-2] + ["quadrant_%d" % self.quadrants.index(quadrant)]])
+        you_are_here = random_element(datums)
+        datums.remove(you_are_here)
+
+        got = NaiveBayesClassify(you_are_here, datums)
+        want = you_are_here[-1]
+
+        print got
+        print want
+
+        got_index = int(got.split("_")[1])
+        want_index = int(got.split("_")[1])
+
+        got_quadrant = self.quadrants[got_index]
+        want_quadrant = self.quadrants[want_index]
+
+        if got_quadrant.is_adjacent(want_quadrant):
+            print "It's cool... they're adjacent..."
+        else:
+            print "Got and want are not adjacent but may be the same..."
+        
         plt.draw()
 
     def overlays(self, event):
