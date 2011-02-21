@@ -19,6 +19,8 @@ class InstanceCollection:
                 self.max_x = 0
                 self.max_y = 0
 		east, west = data_collection.find_poles()
+		self.east = east
+		self.west = west
 		base_d = distance(east, west)
 
 		for datum in data_collection.datums:

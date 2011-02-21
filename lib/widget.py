@@ -16,7 +16,6 @@ from NaiveBayes import *
 from copy import deepcopy
 from scipy import linspace, polyval, polyfit, sqrt, stats, randn
 
-
 class Widget:
 
     def __init__(self, title, instances, quadrants):

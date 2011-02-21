@@ -18,7 +18,7 @@ class Arff:
                 self.data = filename
         else:
             self.extract(filename)
-            #self.extract_headers(filename)
+            self.extract_headers(filename)
 
     def extract(self, path):
         try:
