@@ -76,11 +76,14 @@
 		:west (nth 0 poles)
 		:east (nth 1 poles))))
     (labels ((min-max (row) (mapc #'range-update row ranges))
-             (row0    (raw) (make-row
-                             :raw-cells  (vector! raw)
-			     
-                             :cells      (vector! (mapcar #'norm raw ranges))
-                             :id         (incf id))))
+             (row0    (raw) (let ((coords (multiple-value-list (xy raw
+					      (cluster-west tbl)
+					      (cluster-east tbl)))))
+			      (make-row
+			       :raw-cells  (vector! raw)
+			       :2d-cells   (vector! coords)
+			       :cells      (vector! (mapcar #'norm raw ranges))
+			       :id         (incf id)))))
       (mapc #'min-max data)
       (setf (cluster-rows tbl)
             (vector! (mapcar #'row0 data)))
