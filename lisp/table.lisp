@@ -1,5 +1,8 @@
 (deftest !data ()
-  (test 204 (length (table-rows (data "data/autos.lisp")))))
+  (test 24 (length (table-rows (data "lisp/data/albrecht.lisp")))))
+
+(deftest !cluster ()
+  (test 24 (length (relation-rows (cluster "lisp/data/albrecht.lisp")))))
 
 (defstruct relation
   header rows    ; data stuff
@@ -10,7 +13,7 @@
 (defstruct (table(:include relation)))
 
 (defstruct (cluster(:include relation))
-  west east break c left up right)
+  west east quad1 quad2 quad3 quad4)
 
 (defstruct row id raw-cells cells 2d-cells)
 

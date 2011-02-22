@@ -1,0 +1,4 @@
+(defun build-tree (table)
+  
+
+  )
