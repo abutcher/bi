@@ -1,13 +1,16 @@
 (deftest !data ()
   (test 204 (length (table-rows (data "data/autos.lisp")))))
 
-(defstruct table 
+(defstruct relation
   header rows    ; data stuff
   nums syms num-klasses sym-klasses ignores sym-klass-names; column subsets
   ranges   ;  column meta-info
-  west east c break left right up    ; tree stuff
-  color gray?    ; active learning stuff
   )
+
+(defstruct (table(:include relation)))
+
+(defstruct (cluster(:include relation))
+  west east break c left up right)
 
 (defstruct row id raw-cells cells)
 
