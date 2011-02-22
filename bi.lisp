@@ -8,6 +8,7 @@
   (make "lisp/tricks"
 	"lisp/range"
 	"lisp/table"
+	"lisp/util"
 ))
 
 (defun make-effort ()
