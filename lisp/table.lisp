@@ -28,6 +28,9 @@
 
 (defun data (file)
   (deftable (read1 file)))
+
+(defun cluster (file)
+  (defcluster (read1 file)))
     
 (defun deftable (lists)
   (let* ((id      0)
@@ -61,6 +64,7 @@
          (data    (cdr lists))
          (head    (car lists))
          (ranges  (mapcar #'range0 head))
+	 (poles (multiple-value-list (find-poles (vector! data))))
          (tbl  (make-cluster
                 :header      head
                 :nums        (positions head #'nump)
@@ -68,11 +72,13 @@
                 :ignores     (positions head #'ignorep)
                 :num-klasses (positions head #'num-goalp)
                 :sym-klasses (positions head #'sym-goalp)
-                :ranges      ranges)))
+                :ranges      ranges
+		:west (nth 0 poles)
+		:east (nth 1 poles))))
     (labels ((min-max (row) (mapc #'range-update row ranges))
              (row0    (raw) (make-row
                              :raw-cells  (vector! raw)
-
+			     
                              :cells      (vector! (mapcar #'norm raw ranges))
                              :id         (incf id))))
       (mapc #'min-max data)
@@ -87,7 +93,7 @@
 
 (defun sym-klasses (row tbl)
   (mapcar #'(lambda (i) (svref (row-cells row) i))
-	  (table-sym-klasses tbl)))
+	  (relation-sym-klasses tbl)))
   
 (defmacro do-some ((one row nums  &optional out) &body body)
   (let ((num  (gensym)))

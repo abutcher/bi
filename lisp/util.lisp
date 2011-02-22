@@ -23,9 +23,9 @@
   "Ignores the class variable -- effort in our case."
   (let ((d 0))
     (dotimes (n (1- (length this)))
-      (if (numberp (svref this n))
-(setf d (+ d (expt (- (svref that n) (svref this n)) 2)))
-(if (eql (svref this n) (svref that n))
+      (if (numberp (nth n this))
+(setf d (+ d (expt (- (nth n that) (nth n this)) 2)))
+(if (eql (nth n this) (nth n that))
 (incf d))))
     (sqrt d)))
 
@@ -43,7 +43,6 @@
 	   (when (> d max)
 	     (setf max d
 		   out tmp))))))
-
 
 (defun xy (here west east)
   (let* ((a2 (expt (dist west here) 2))
