@@ -9,6 +9,7 @@
 	"lisp/range"
 	"lisp/table"
 	"lisp/util"
+	"lisp/quadrant"
 ))
 
 (defun make-effort ()

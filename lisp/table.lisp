@@ -13,7 +13,7 @@
 (defstruct (table(:include relation)))
 
 (defstruct (cluster(:include relation))
-  west east quad1 quad2 quad3 quad4)
+  west east xsplit ysplit quad1 quad2 quad3 quad4)
 
 (defstruct row id raw-cells cells 2d-cells)
 
@@ -67,6 +67,8 @@
          (data    (cdr lists))
          (head    (car lists))
          (ranges  (mapcar #'range0 head))
+	 (quads   (make-quads data))
+	 (ticks (middle-ticks data))
 	 (poles (multiple-value-list (find-poles (vector! data))))
          (tbl  (make-cluster
                 :header      head
@@ -76,6 +78,12 @@
                 :num-klasses (positions head #'num-goalp)
                 :sym-klasses (positions head #'sym-goalp)
                 :ranges      ranges
+		:quad1 (construct-cluster head (first quads))
+		:quad2 (construct-cluster head (second quads))
+		:quad3 (construct-cluster head (third quads))
+		:quad4 (construct-cluster head (fourth quads))
+		:xsplit (first ticks)
+		:ysplit (second ticks)
 		:west (nth 0 poles)
 		:east (nth 1 poles))))
     (labels ((min-max (row) (mapc #'range-update row ranges))
@@ -94,6 +102,12 @@
         (pushnew (sym-klass1 row tbl)
                  (cluster-sym-klass-names tbl)))
       tbl)))
+
+(defun construct-cluster(head list)
+  (if (> 4 (length list))
+      nil
+      (defcluster (push head list))))
+      
 
 (defun sym-klass1 (row tbl) (car (sym-klasses row tbl)))
 
