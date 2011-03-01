@@ -4,6 +4,7 @@ import math
 import random
 import numpy as np
 import arff
+import operator
 
 def variance(data):
     if len(data) == 1:
@@ -239,3 +240,4 @@ def chopInTwo(data):
     g1 = data[0:int(len(data)/2)]
     g2 = data[int(len(data)/2)+1:-1]
     return g1, g2
+

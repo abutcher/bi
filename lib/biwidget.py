@@ -16,6 +16,8 @@ from util import *
 from copy import deepcopy
 from scipy import linspace, polyval, polyfit, sqrt, stats, randn
 
+
+
 class InstanceDialog(wx.Dialog):
     def __init__(self, parent, id, title, headers, you_are_here):
         wx.Dialog.__init__(self, parent, id, title, size=(250, 750))
@@ -51,34 +53,24 @@ class PlotPanel (wxmpl.PlotPanel):
         self.overlay = False
         self.trend = False
 
-        # initialize Panel
         if 'id' not in kwargs.keys():
             kwargs['id'] = wx.ID_ANY
         if 'style' not in kwargs.keys():
             kwargs['style'] = wx.NO_FULL_REPAINT_ON_RESIZE
         wx.Panel.__init__( self, parent, **kwargs )
 
-        # initialize matplotlib stuff
         self.figure = Figure( None, dpi )
         self.canvas = FigureCanvasWxAgg( self, -1, self.figure )
         self.SetColor( color )
-
-#        labels = [wx.StaticText(self, -1, header) for header in self.headers]
-#        text_boxes = [wx.TextCtrl(self, -1, str(header), size=(60, -1)) for header in self.headers]
         
         self.hs0 = wx.GridSizer(rows=20, cols=2, vgap=6, hgap=6)
         self.hs1 = wx.BoxSizer(wx.VERTICAL)
-
-#        self.hs0.AddMany(labels)
-
         self.sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.sizer.Add(self.hs0, flag=wx.EXPAND)
         self.sizer.Add(self.canvas, wx.EXPAND)
         self.sizer.Add(self.hs1, flag=wx.EXPAND)
         self.add_toolbar()
         self.SetSizer(self.sizer)
-
-#        self.Fit()
         
         self._SetSize()
         self.draw()
@@ -110,7 +102,6 @@ class PlotPanel (wxmpl.PlotPanel):
         self.toolbar.update()
             
     def SetColor( self, rgbtuple=None ):
-        """Set figure and canvas colours to be the same."""
         if rgbtuple is None:
             rgbtuple = wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ).Get()
         clr = [c/255. for c in rgbtuple]
@@ -134,17 +125,11 @@ class PlotPanel (wxmpl.PlotPanel):
                                      float( pixels[1] )/self.figure.get_dpi() )
 
     def draw(self): pass
-    
     def draw_trends(self, event): pass
-
     def draw_overlays(self, event): pass
-
     def color_quadrants(self, quadrants, color): pass
-
     def onAbout(self, event): pass
-
     def YouAreHere(self, event): pass
-
     def updateYouAreHere(self, you_are_here): pass
 
 def make_n_colors(cmap_name, n):
@@ -442,7 +427,6 @@ if __name__ == '__main__':
     wx.EVT_MENU(frame, 2012, panel.draw_trends)
     wx.EVT_MENU(frame, 2013, panel.draw_overlays)
     wx.EVT_MENU(frame, 2014, panel.YouAreHere)
-    
     
     frame.Show()
     app.MainLoop()
