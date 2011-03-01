@@ -24,9 +24,9 @@
   (let ((d 0))
     (dotimes (n (1- (length this)))
       (if (numberp (nth n this))
-(setf d (+ d (expt (- (nth n that) (nth n this)) 2)))
-(if (eql (nth n this) (nth n that))
-(incf d))))
+	  (setf d (+ d (expt (- (nth n that) (nth n this)) 2)))
+	  (if (eql (nth n this) (nth n that))
+	      (incf d))))
     (sqrt d)))
 
 (defun find-poles (rows)

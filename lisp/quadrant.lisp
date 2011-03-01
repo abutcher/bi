@@ -1,20 +1,27 @@
 (defun make-quads(datums)
   (let ((ticks (middle-ticks datums))
 	quad1 quad2 quad3 quad4)
-    (dolist (datum datums)
-      (if (< (first datum) (first ticks))
-	  (if (< (second datum) (second ticks))
-	      (push datum quad1)
-	      (push datum quad4))
-	  (if (< (second datum) (second ticks))
-	      (push datum quad2)
-	      (push datum quad3))))
+    (dov (datum datums)
+      (if (< (aref (row-2d-cells datum) 0) (first ticks))
+	  (if (< (aref (row-2d-cells datum) 1) (second ticks))
+	      (push (vector-to-list(row-raw-cells datum)) quad1)
+	      (push (vector-to-list(row-raw-cells datum)) quad4))
+	  (if (< (aref (row-2d-cells datum) 1) (second ticks))
+	      (push (vector-to-list(row-raw-cells datum)) quad2)
+	      (push (vector-to-list(row-raw-cells datum)) quad3))))
+    (print quad1)
     (list quad1 quad2 quad3 quad4)))
-      
 
+(defun vector-to-list(vect)
+  (map 'list #'(lambda (x) x) vect))
+      
 (defun middle-ticks(datums)
-  (let* ((x (first (nth (median-index datums) (sort (copy-list datums) #'< :key #'first))))
-	 (y (second (nth (median-index datums) (sort (copy-list datums) #'< :key #'second)))))
+  (let* ((x (aref (row-2d-cells (aref (sort datums #'< :key #'(lambda (x) (if (complexp (aref (row-2d-cells x) 0))
+									      0
+									      (aref (row-2d-cells x) 0)))) (median-index datums))) 0))
+	 (y (aref (row-2d-cells (aref (sort datums #'< :key #'(lambda (x) (if (complexp (aref (row-2d-cells x) 1))
+									      0
+									      (aref (row-2d-cells x) 1)))) (median-index datums))) 1)))
     (list x y)))
 
 (defun median-index (list)
