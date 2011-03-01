@@ -1,33 +1,32 @@
-
 @relation MAXWELL
-@attribute	Syear	numeric
-@attribute	App	numeric
-@attribute	Har	numeric
-@attribute	Dba	numeric
-@attribute	Ifc	numeric
-@attribute	Source	numeric
-@attribute	Telonuse 	numeric
-@attribute	Nlan	numeric
-@attribute	T01	numeric
-@attribute	T02	numeric
-@attribute	T03 	numeric
-@attribute	T04	numeric
-@attribute	T05	numeric
-@attribute	T06 	numeric
-@attribute	T07	numeric
-@attribute	T08 	numeric
-@attribute	T09 	numeric
-@attribute	T10	numeric
-@attribute	T11 	numeric
-@attribute	T12 	numeric
-@attribute	T13 	numeric
-@attribute	T14 	numeric
-@attribute	T15 	numeric
-@attribute	Duration	numeric
-@attribute	Size	numeric
-@attribute	Time	numeric
-@attribute	Effort	numeric
 
+@attribute Syear numeric
+@attribute App numeric
+@attribute Har numeric
+@attribute Dba numeric
+@attribute Ifc numeric
+@attribute Source numeric
+@attribute Telonuse numeric
+@attribute Nlan numeric
+@attribute T01 numeric
+@attribute T02 numeric
+@attribute T03 numeric
+@attribute T04 numeric
+@attribute T05 numeric
+@attribute T06 numeric
+@attribute T07 numeric
+@attribute T08 numeric
+@attribute T09 numeric
+@attribute T10 numeric
+@attribute T11 numeric
+@attribute T12 numeric
+@attribute T13 numeric
+@attribute T14 numeric
+@attribute T15 numeric
+@attribute Duration numeric
+@attribute Size	numeric
+@attribute Time numeric
+@attribute Effort numeric
 
 @data
 92,2,2,1,2,2,0,3,4,3,5,3,3,3,4,5,4,5,4,4,4,4,5,16,647,8,7871
