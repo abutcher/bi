@@ -117,7 +117,7 @@ class Nomogram:
         return math.log(((float(tcount) / float(tnotcount)) / self.good_bad()) + 0.0001)
         
 def main():
-    arff = Arff("data/china.arff")
+    arff = Arff("data/nasa93.arff")
     dc = DataCollection(arff.data)
     ic = InstanceCollection(dc)
     ic.normalize_coordinates()
