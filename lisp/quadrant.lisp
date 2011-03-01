@@ -1,0 +1,23 @@
+(defun make-quads(datums)
+  (let ((ticks (middle-ticks datums))
+	quad1 quad2 quad3 quad4)
+    (dolist (datum datums)
+      (if (< (first datum) (first ticks))
+	  (if (< (second datum) (second ticks))
+	      (push datum quad1)
+	      (push datum quad4))
+	  (if (< (second datum) (second ticks))
+	      (push datum quad2)
+	      (push datum quad3))))
+    (list quad1 quad2 quad3 quad4)))
+      
+
+(defun middle-ticks(datums)
+  (let* ((x (first (nth (median-index datums) (sort (copy-list datums) #'< :key #'first))))
+	 (y (second (nth (median-index datums) (sort (copy-list datums) #'< :key #'second)))))
+    (list x y)))
+
+(defun median-index (list)
+  (let ((len (length list)))
+    (multiple-value-bind (integer remainder) (floor (/ len 2))
+      integer)))
