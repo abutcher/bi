@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/opt/local/bin/python2.6 
 
 import matplotlib
 matplotlib.interactive( True )
@@ -172,7 +172,7 @@ if __name__ == '__main__':
                 xmax = quadrant.xmax
                 ymin = quadrant.ymin
                 ymax = quadrant.ymax
-                self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor='white', visible=True, linewidth=0.5)
+                self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor='white', visible=True, linewidth=0)
 
         def onAbout(self, event):
             dlg = wx.MessageDialog(self.parent, "About information.",
@@ -235,28 +235,28 @@ if __name__ == '__main__':
                     ymin = quadrant.ymin
                     ymax = quadrant.ymax
                     if quadrant.qmedian() < range1:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[0], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[0], visible=True, linewidth=0)
                     elif quadrant.qmedian() < range2:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[19], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[19], visible=True, linewidth=0)                    
                     elif quadrant.qmedian() < range3:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[39], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[39], visible=True, linewidth=0)                    
                     elif quadrant.qmedian() < range4:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[59], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[59], visible=True, linewidth=0)                    
                     elif quadrant.qmedian() < range5:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[60], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[60], visible=True, linewidth=0)                    
                     elif quadrant.qmedian() < range6:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[120], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[120], visible=True, linewidth=0)                    
                     elif quadrant.qmedian() < range7:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[180], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[180], visible=True, linewidth=0)                    
                     else:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[239], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[239], visible=True, linewidth=0)                    
             else:
                 for quadrant in self.quadrants:
                     xmin = quadrant.xmin
                     xmax = quadrant.xmax
                     ymin = quadrant.ymin
                     ymax = quadrant.ymax
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor='white', visible=True, linewidth=0.5)
+                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor='white', visible=True, linewidth=0)
             #self.subplot.draw(self.subplot)
 
         def YouAreHere(self, event):
@@ -309,28 +309,28 @@ if __name__ == '__main__':
                     ymin = quadrant.ymin
                     ymax = quadrant.ymax
                     if quadrant.qmedian() < range1:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[0], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[0], visible=True, linewidth=0)                    
                     elif quadrant.qmedian() < range2:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[19], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[19], visible=True, linewidth=0)                    
                     elif quadrant.qmedian() < range3:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[39], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[39], visible=True, linewidth=0)                    
                     elif quadrant.qmedian() < range4:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[59], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[59], visible=True, linewidth=0)                    
                     elif quadrant.qmedian() < range5:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[60], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[60], visible=True, linewidth=0)                    
                     elif quadrant.qmedian() < range6:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[120], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[120], visible=True, linewidth=0)                    
                     elif quadrant.qmedian() < range7:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[180], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[180], visible=True, linewidth=0)                    
                     else:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[239], visible=True, linewidth=0.5)                    
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[239], visible=True, linewidth=0)                    
             else:
                 for quadrant in self.quadrants:
                     xmin = quadrant.xmin
                     xmax = quadrant.xmax
                     ymin = quadrant.ymin
                     ymax = quadrant.ymax
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor='white', visible=True, linewidth=0.5)
+                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor='white', visible=True, linewidth=0)
             
             self.subplot.draw()
 
@@ -350,7 +350,7 @@ if __name__ == '__main__':
 
             self.subplot.plot(self.you_are_here.coord.x, self.you_are_here.coord.y, "ro", markersize=10)
             
-            effort = [quadrant.qmedian() for quadrant in self.quadrants]
+            effort = [quadrant.qvariance() for quadrant in self.quadrants]
             range_length = int(len(effort)/8)
             
             effort = sorted(effort)
@@ -372,26 +372,26 @@ if __name__ == '__main__':
                 xmax = quadrant.xmax
                 ymin = quadrant.ymin
                 ymax = quadrant.ymax
-                if quadrant.qmedian() < range1:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[0], visible=True, linewidth=0.5)                    
-                elif quadrant.qmedian() < range2:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[19], visible=True, linewidth=0.5)                    
-                elif quadrant.qmedian() < range3:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[39], visible=True, linewidth=0.5)                    
-                elif quadrant.qmedian() < range4:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[59], visible=True, linewidth=0.5)                    
-                elif quadrant.qmedian() < range5:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[60], visible=True, linewidth=0.5)                    
-                elif quadrant.qmedian() < range6:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[120], visible=True, linewidth=0.5)                    
-                elif quadrant.qmedian() < range7:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[180], visible=True, linewidth=0.5)                    
+                if quadrant.qvariance() < range1:
+                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[0], visible=True, linewidth=0)                    
+                elif quadrant.qvariance() < range2:
+                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[19], visible=True, linewidth=0)                    
+                elif quadrant.qvariance() < range3:
+                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[39], visible=True, linewidth=0)                    
+                elif quadrant.qvariance() < range4:
+                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[59], visible=True, linewidth=0)                    
+                elif quadrant.qvariance() < range5:
+                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[60], visible=True, linewidth=0)                    
+                elif quadrant.qvariance() < range6:
+                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[120], visible=True, linewidth=0)                    
+                elif quadrant.qvariance() < range7:
+                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[180], visible=True, linewidth=0)                    
                 else:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[239], visible=True, linewidth=0.5)                    
+                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[239], visible=True, linewidth=0)                    
 
             self.subplot.draw()            
                     
-    arff = Arff("data/china.arff")
+    arff = Arff("data/nasa93.arff")
     dc = DataCollection(arff.data)
     ic = InstanceCollection(dc)
     ic.normalize_coordinates()

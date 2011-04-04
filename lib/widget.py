@@ -12,17 +12,19 @@ from quadrant import *
 from instance import *
 from util import *
 from NaiveBayes import *
+from gridclus2 import *
 
 from copy import deepcopy
 from scipy import linspace, polyval, polyfit, sqrt, stats, randn
 
 class Widget:
 
-    def __init__(self, title, instances, quadrants):
+    def __init__(self, title, instances, quadrants, clusters):
         self.title = title
         self.instances = instances
         self.quadrants = quadrants
-
+        self.clusters = clusters
+        
         self.overlay = False
         self.trend = False
 
@@ -199,28 +201,37 @@ class Widget:
 
     def alerts(self, event):
         datums = []
-        for quadrant in self.quadrants:
-            for instance in quadrant.instances:
-                datums.extend([instance.datum[0:-2] + ["quadrant_%d" % self.quadrants.index(quadrant)]])
+        for cluster in self.clusters:
+            for instance in cluster.instances():
+                datums.extend([instance.datum[0:-2] + ["cluster_%d" % self.clusters.index(cluster)]])
+
+        #for quadrant in self.quadrants:
+        #    for instance in quadrant.instances:
+        #        datums.extend([instance.datum[0:-2] + ["quadrant_%d" % self.quadrants.index(quadrant)]])
+        """
         you_are_here = random_element(datums)
         datums.remove(you_are_here)
-
+        
         got = NaiveBayesClassify(you_are_here, datums)
         want = you_are_here[-1]
-
+        
         print got
         print want
 
-        got_index = int(got.split("_")[1])
-        want_index = int(got.split("_")[1])
-
-        got_quadrant = self.quadrants[got_index]
-        want_quadrant = self.quadrants[want_index]
-
-        if got_quadrant.is_adjacent(want_quadrant):
-            print "It's cool... they're adjacent..."
-        else:
-            print "Got and want are not adjacent but may be the same..."
+        if self.clusters[int(got.split('_')[-1])].is_neighbor(self.clusters[int(want.split('_')[-1])]):
+            print "adjacent..."
+        """
+        right = 0
+            
+        for datum in datums:
+            datums.remove(datum)
+            got = NaiveBayesClassify(datum, datums)
+            want = datum[-1]
+            if got == want or self.clusters[int(got.split('_')[-1])].is_neighbor(self.clusters[int(want.split('_')[-1])]):
+                right += 1
+            datums.append(datum)
+            
+        print right, '/', len(datums)
         
         plt.draw()
 
@@ -248,15 +259,16 @@ class Widget:
         return cmap(np.arange(n))
 
 def main():
-    arff = Arff('data/china.arff')
+    arff = Arff('data/.arff')
     dc = DataCollection(arff.data)
     ic = InstanceCollection(dc)
     ic.normalize_coordinates()
 
     trainXY = log_y(log_x(deepcopy(ic.instances)))
     quadrants = QuadrantTree(trainXY).leaves()
+    clusters = GRIDCLUS(quadrants)
 
-    widget = Widget( 'china', trainXY, quadrants)
+    widget = Widget( 'china', trainXY, quadrants, clusters)
     widget.show()
 
 if __name__ == '__main__':

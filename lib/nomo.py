@@ -29,7 +29,7 @@ class Nomogram:
         self.ops = {"<": operator.lt, ">": operator.gt} # Operators we support for goal.
 
         self.headers = headers
-        self.datums = discretize([inst.datum for inst in instances], 8)
+        self.datums = discretize([inst.datum for inst in instances], 3)
         self.you = random_element(self.datums)
         self.class_type = class_type
         self.goal = goal
@@ -88,7 +88,7 @@ class Nomogram:
                 if (self.headers[e], self.you[e]) in r:
                     x = r[1]
             y = [self.attr_scores[i][0][0][0] for i in range(len(self.attr_scores))].index(self.headers[e]) + 1
-            subplot.plot(x, y, "g^")
+            subplot.plot(x, y, "g^", markersize=10)
             
         pylab.yticks([i+1 for i in range(len(self.attr_scores))], [self.attr_scores[i][0][0][0] for i in range(len(self.attr_scores))])
         plt.show()

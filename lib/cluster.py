@@ -2,6 +2,7 @@ from copy import deepcopy
 from util import *
 from NaiveBayes import *
 from statistics import *
+import numpy as np
 
 class Cluster:
 
@@ -41,6 +42,9 @@ class Cluster:
                 if (((a.xmin == b.xmax) or (a.xmax == b.xmin)) or ((a.ymin == b.ymax) or (a.ymax == b.ymin))) and not self == other_cluster:
                     result = True
         return result
+
+    def cmedian(self):
+        return np.average([quad.qmedian() for quad in self.quadrants])
         
 def cluster_prune(clusters, pct):
     if len(clusters) == 1:

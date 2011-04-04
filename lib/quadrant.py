@@ -18,7 +18,7 @@ class QuadrantTree:
 			if instance.coord.y > maxy:
 				maxy = instance.coord.y
 		self.root = Quadrant(minx, maxx, miny, maxy, instances)
-		self.minsize = 4 #math.sqrt(len(instances))
+		self.minsize = math.sqrt(len(instances))
 		self.max_variance = 0.0
 		self.got = 0.0
 

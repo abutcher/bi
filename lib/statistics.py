@@ -2,7 +2,6 @@ from NaiveBayes import *
 from knn import *
 from util import distance
 import sys
-from runtime import *
 import math
 
 # This contains functions for defect prediction statistics.  If you're looking
