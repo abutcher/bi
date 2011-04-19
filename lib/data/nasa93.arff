@@ -23,7 +23,7 @@
 @attribute tool {vl,l,n,h,vh,xh}
 @attribute sced {vl,l,n,h,vh,xh}
 @attribute equivphyskloc real
-@attribute act_effort real
+@attribute #act_effort real
 
 @data
 

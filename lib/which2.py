@@ -17,8 +17,7 @@ from util import *
 def which2n(headers, datums):
     round0 = round0n(headers, datums)
     finalRules = roundsn(headers, datums, round0)
-    for rule in finalRules:
-        rule.describe()
+    return finalRules
 
 def round0n(headers, datums):
     """ Round 0 returns all possible singleton rules... ((temp 75),
@@ -98,16 +97,10 @@ class Rule:
     """
 
     def describe(self):
-        print "RULE"
-        print "Class: ", self.klass
-        print "ORS"
+        ands = ""
         for a in self.ands:
-            a.describe()
-        print "Score: ", self.score
-        print "Avgs: ", self.avgs
-        print "Utils: ", self.utils
-        print "Marked: ", self.marked
-        print "Support: ", self.support
+            ands += a.describe()
+        return "Class: " + str(self.klass) + "\nORS\n" + ands + "Score: " + str(self.score) + "\nAvgs: " + str(self.avgs) + "\nUtils: " + str(self.utils) + "\nMarked: " + str(self.marked) + "\nSupport: " + str(self.support) + "\n"
 
     def scoren(self, headers, datums):
         rowlistout = []
@@ -159,8 +152,7 @@ class Ors:
         self.forr = forr
         self.values = values
     def describe(self):
-        print "For: ", self.forr
-        print "Values: ", self.values
+        return "For: " + str(self.forr) + "\nValues: " + str(self.values) + "\n"
 
 def magnitude(l):
     return math.sqrt(sum([a**2 for a in l]))
@@ -283,4 +275,7 @@ def radians_to_degrees(theta):
 
 if __name__ == "__main__":
     arff = Arff("data/coc81.arff")
-    which2n(arff.headers, discretize(arff.data))
+    rules = which2n(arff.headers, discretize(arff.data))
+    for rule in rules:
+        print rule.describe()
+    

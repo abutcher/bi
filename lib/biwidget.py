@@ -15,7 +15,7 @@ from quadrant import *
 from util import *
 from copy import deepcopy
 from scipy import linspace, polyval, polyfit, sqrt, stats, randn
-
+from which2 import *
 
 
 class InstanceDialog(wx.Dialog):
@@ -45,6 +45,27 @@ class InstanceDialog(wx.Dialog):
         self.parent.updateYouAreHere(self.you_are_here)
         self.Close()
 
+class ContrastDialog(wx.Dialog):
+    def __init__(self, parent, id, title, rlist1, rlist2):
+        wx.Dialog.__init__(self, parent, id, title, size=(500,500))
+
+        self.parent = parent
+
+        for i in range(len(rlist1)):
+            wx.StaticText(self, -1, rlist1[i].describe(), (15, i*40))
+
+        for i in range(len(rlist2)):
+            wx.StaticText(self, -1, rlist2[i].describe(), (265, i*40))
+            
+        self.Bind(wx.EVT_BUTTON, self.OnClose, id=1)
+
+        self.Centre()
+        self.ShowModal()
+        self.Destroy()
+        
+    def OnClose(self, event):
+        self.Close()        
+
 class PlotPanel (wxmpl.PlotPanel):
     def __init__( self, parent, headers, color=None, dpi=None, **kwargs ):
         from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg
@@ -61,6 +82,8 @@ class PlotPanel (wxmpl.PlotPanel):
 
         self.figure = Figure( None, dpi )
         self.canvas = FigureCanvasWxAgg( self, -1, self.figure )
+        self.canvas.mpl_connect('button_release_event', self.on_release)
+        
         self.SetColor( color )
         
         self.hs0 = wx.GridSizer(rows=20, cols=2, vgap=6, hgap=6)
@@ -124,6 +147,7 @@ class PlotPanel (wxmpl.PlotPanel):
         self.figure.set_size_inches( float( pixels[0] )/self.figure.get_dpi(),
                                      float( pixels[1] )/self.figure.get_dpi() )
 
+    def on_release(self, event): pass
     def draw(self): pass
     def draw_trends(self, event): pass
     def draw_overlays(self, event): pass
@@ -131,6 +155,7 @@ class PlotPanel (wxmpl.PlotPanel):
     def onAbout(self, event): pass
     def YouAreHere(self, event): pass
     def updateYouAreHere(self, you_are_here): pass
+    def contrastSet(self, event): pass
 
 def make_n_colors(cmap_name, n):
     cmap = cm.get_cmap(cmap_name, n)
@@ -150,6 +175,8 @@ if __name__ == '__main__':
             self.ic = ic
             self.you_are_here = random_element(self.instances)
             self.instances.remove(self.you_are_here)
+            self.contrast = False
+            self.contrast_quads = []
 
             # initiate plotter
             PlotPanel.__init__( self, parent, headers, **kwargs )
@@ -174,11 +201,46 @@ if __name__ == '__main__':
                 ymax = quadrant.ymax
                 self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor='white', visible=True, linewidth=0)
 
+        def on_release(self, event):
+            if self.contrast:
+                print "X: ", event.xdata
+                print "Y: ", event.ydata
+
+                if len(self.contrast_quads) < 2:
+                    for quadrant in self.quadrants:
+                        xmin = quadrant.xmin
+                        xmax = quadrant.xmax
+                        ymin = quadrant.ymin
+                        ymax = quadrant.ymax
+                        if event.xdata <= xmax and event.xdata >= xmin and event.ydata <= ymax and event.ydata >= ymin:
+                            self.contrast_quads.append(quadrant)
+                    if len(self.contrast_quads) == 2:
+                        print "You've selected two contrast quadrants!"
+                        #ContrastDialog(self, -1, 'Contrast Dialog', which2n(self.headers, discretize(self.contrast_quads[0].datums())), which2n(self.headers, discretize(self.contrast_quads[1].datums())))
+                        ContrastDialog(self, -1, 'Contrast Dialog', [], [])
+                else:
+                    self.contrast_quads = []
+                    for quadrant in self.quadrants:
+                        xmin = quadrant.xmin
+                        xmax = quadrant.xmax
+                        ymin = quadrant.ymin
+                        ymax = quadrant.ymax
+                        if event.xdata <= xmax and event.xdata >= xmin and event.ydata <= ymax and event.ydata >= ymin:
+                            self.contrast_quads.append(quadrant)                    
+
         def onAbout(self, event):
             dlg = wx.MessageDialog(self.parent, "About information.",
                                   "About Me", wx.OK | wx.ICON_INFORMATION)
             dlg.ShowModal()
             dlg.Destroy()
+
+        def contrastSet(self, event):
+            if self.contrast:
+                print "End contrasting!"
+                self.contrast = False
+            else:
+                print "Begin contrasting!"
+                self.contrast = True
 
         def updateYouAreHere(self, you_are_here):
             self.you_are_here = you_are_here
@@ -391,7 +453,7 @@ if __name__ == '__main__':
 
             self.subplot.draw()            
                     
-    arff = Arff("data/nasa93.arff")
+    arff = Arff("data/china.arff")
     dc = DataCollection(arff.data)
     ic = InstanceCollection(dc)
     ic.normalize_coordinates()
@@ -415,9 +477,13 @@ if __name__ == '__main__':
     menu.AppendSeparator()
     menu.Append(2014, "&You Are Here",
                 "Update you are here information.")
+    menu.AppendSeparator()
+    menu.Append(2015, "&Contrast",
+                "Display contrast set for two selected regions.")
+    
     menu.AppendSeparator()    
     menu.Append(wx.ID_EXIT, "E&xit", "Terminate the program")
-    
+
     menuBar = wx.MenuBar()
     menuBar.Append(menu, "&File");
     
@@ -427,6 +493,7 @@ if __name__ == '__main__':
     wx.EVT_MENU(frame, 2012, panel.draw_trends)
     wx.EVT_MENU(frame, 2013, panel.draw_overlays)
     wx.EVT_MENU(frame, 2014, panel.YouAreHere)
+    wx.EVT_MENU(frame, 2015, panel.contrastSet)
     
     frame.Show()
     app.MainLoop()
