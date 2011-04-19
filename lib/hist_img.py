@@ -7,12 +7,16 @@ from matplotlib import font_manager as fm
 import numpy as np
 from arff import *
 
-arff = Arff("arff/coc81.arff")
+arff = Arff("data/coc81.arff")
 trans = transpose(arff.data)
 
-for t in trans:
-    if type(t[0]) is str:
-        trans.remove(t)
+print arff.headers
+
+for i in range(len(trans)-1):
+    print trans[i][0]
+    if type(trans[i][0]) is str:
+        trans.remove(trans[i])
+        arff.headers.remove(arff.headers[i])
 
 fig = plt.figure(figsize=(16,8))
 fig.subplots_adjust(wspace=0.5)

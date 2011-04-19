@@ -2,6 +2,7 @@
 from arff import *
 import numpy as np
 import scipy
+from timer import *
 
 def hist(population):
     return scipy.histogram(population)[0]
@@ -51,7 +52,7 @@ def emd(s, d):
     return total
 
 if __name__ == "__main__":
-    arff = Arff("arff/china.arff")
+    arff = Arff("data/defect/jm1.arff")
 
     d1 = arff.data[0:len(arff.data)/2]
     d2 = arff.data[len(arff.data)/2:-1]
@@ -59,8 +60,8 @@ if __name__ == "__main__":
     d1 = transpose(d1)
     d2 = transpose(d2)
 
-    d1_h = hist(d1[-1])
-    d2_h = hist(d2[-1])
-
-    print emd(d1_h, d2_h)
-
+    with Timer("%d samples, histograms and emd for dependent var" % (len(d1[0]))):
+        d1_h = hist(d1[-2])
+        d2_h = hist(d2[-2])
+        
+        print emd(d1_h, d2_h)
