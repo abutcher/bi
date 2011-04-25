@@ -16,7 +16,7 @@ from util import *
 from copy import deepcopy
 from scipy import linspace, polyval, polyfit, sqrt, stats, randn
 from which2 import *
-
+from gridclus2 import *
 
 class InstanceDialog(wx.Dialog):
     def __init__(self, parent, id, title, headers, you_are_here):
@@ -167,7 +167,7 @@ def TimeToQuit(event):
 if __name__ == '__main__':
     class DemoPlotPanel (PlotPanel):
         """Plots several lines in distinct colors."""
-        def __init__( self, parent, instances, quadrants, headers, ic, **kwargs ):
+        def __init__( self, parent, instances, quadrants, clusters, headers, ic, **kwargs ):
             self.parent = parent
             self.instances = instances
             self.quadrants = quadrants
@@ -177,6 +177,7 @@ if __name__ == '__main__':
             self.instances.remove(self.you_are_here)
             self.contrast = False
             self.contrast_quads = []
+            self.clusters = clusters
 
             # initiate plotter
             PlotPanel.__init__( self, parent, headers, **kwargs )
@@ -274,7 +275,7 @@ if __name__ == '__main__':
             self.subplot.plot(self.you_are_here.coord.x, self.you_are_here.coord.y, "ro", markersize=10)
 
             if self.overlay == True:
-                effort = [quadrant.qmedian() for quadrant in self.quadrants]
+                effort = [cluster.cmedian() for cluster in self.clusters]
                 range_length = int(len(effort)/8)
                 
                 effort = sorted(effort)
@@ -291,27 +292,28 @@ if __name__ == '__main__':
                 greens = make_n_colors(cm.Greens_r, 80)
                 reds = make_n_colors(cm.Reds, 240)
                 
-                for quadrant in self.quadrants:
-                    xmin = quadrant.xmin
-                    xmax = quadrant.xmax
-                    ymin = quadrant.ymin
-                    ymax = quadrant.ymax
-                    if quadrant.qmedian() < range1:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[0], visible=True, linewidth=0)
-                    elif quadrant.qmedian() < range2:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[19], visible=True, linewidth=0)                    
-                    elif quadrant.qmedian() < range3:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[39], visible=True, linewidth=0)                    
-                    elif quadrant.qmedian() < range4:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[59], visible=True, linewidth=0)                    
-                    elif quadrant.qmedian() < range5:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[60], visible=True, linewidth=0)                    
-                    elif quadrant.qmedian() < range6:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[120], visible=True, linewidth=0)                    
-                    elif quadrant.qmedian() < range7:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[180], visible=True, linewidth=0)                    
-                    else:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[239], visible=True, linewidth=0)                    
+                for cluster in self.clusters:
+                    for quadrant in cluster.quadrants:
+                        xmin = quadrant.xmin
+                        xmax = quadrant.xmax
+                        ymin = quadrant.ymin
+                        ymax = quadrant.ymax
+                        if cluster.cmedian() < range1:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[0], visible=True, linewidth=0)
+                        elif cluster.cmedian() < range2:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[19], visible=True, linewidth=0)                    
+                        elif cluster.cmedian() < range3:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[39], visible=True, linewidth=0)                    
+                        elif cluster.cmedian() < range4:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[59], visible=True, linewidth=0)                    
+                        elif cluster.cmedian() < range5:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[60], visible=True, linewidth=0)                    
+                        elif cluster.cmedian() < range6:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[120], visible=True, linewidth=0)                    
+                        elif cluster.cmedian() < range7:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[180], visible=True, linewidth=0)                    
+                        else:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[239], visible=True, linewidth=0)                    
             else:
                 for quadrant in self.quadrants:
                     xmin = quadrant.xmin
@@ -348,7 +350,7 @@ if __name__ == '__main__':
             self.subplot.plot(x2, y2, "o", markersize=3, alpha=0.5)
 
             if self.overlay == True:
-                effort = [quadrant.qmedian() for quadrant in self.quadrants]
+                effort = [cluster.cmedian() for cluster in self.clusters]
                 range_length = int(len(effort)/8)
                 
                 effort = sorted(effort)
@@ -365,27 +367,28 @@ if __name__ == '__main__':
                 greens = make_n_colors(cm.Greens_r, 80)
                 reds = make_n_colors(cm.Reds, 240)
                 
-                for quadrant in self.quadrants:
-                    xmin = quadrant.xmin
-                    xmax = quadrant.xmax
-                    ymin = quadrant.ymin
-                    ymax = quadrant.ymax
-                    if quadrant.qmedian() < range1:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[0], visible=True, linewidth=0)                    
-                    elif quadrant.qmedian() < range2:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[19], visible=True, linewidth=0)                    
-                    elif quadrant.qmedian() < range3:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[39], visible=True, linewidth=0)                    
-                    elif quadrant.qmedian() < range4:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[59], visible=True, linewidth=0)                    
-                    elif quadrant.qmedian() < range5:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[60], visible=True, linewidth=0)                    
-                    elif quadrant.qmedian() < range6:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[120], visible=True, linewidth=0)                    
-                    elif quadrant.qmedian() < range7:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[180], visible=True, linewidth=0)                    
-                    else:
-                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[239], visible=True, linewidth=0)                    
+                for cluster in self.clusters:
+                    for quadrant in cluster.quadrants:
+                        xmin = quadrant.xmin
+                        xmax = quadrant.xmax
+                        ymin = quadrant.ymin
+                        ymax = quadrant.ymax
+                        if cluster.cmedian() < range1:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[0], visible=True, linewidth=0)
+                        elif cluster.cmedian() < range2:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[19], visible=True, linewidth=0)                    
+                        elif cluster.cmedian() < range3:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[39], visible=True, linewidth=0)                    
+                        elif cluster.cmedian() < range4:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[59], visible=True, linewidth=0)                    
+                        elif cluster.cmedian() < range5:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[60], visible=True, linewidth=0)                    
+                        elif cluster.cmedian() < range6:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[120], visible=True, linewidth=0)                    
+                        elif cluster.cmedian() < range7:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[180], visible=True, linewidth=0)                    
+                        else:
+                            self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[239], visible=True, linewidth=0)                
             else:
                 for quadrant in self.quadrants:
                     xmin = quadrant.xmin
@@ -411,8 +414,8 @@ if __name__ == '__main__':
             self.subplot.plot(x, y, "o", markersize=3, alpha=0.5)
 
             self.subplot.plot(self.you_are_here.coord.x, self.you_are_here.coord.y, "ro", markersize=10)
-            
-            effort = [quadrant.qvariance() for quadrant in self.quadrants]
+
+            effort = [cluster.cmedian() for cluster in self.clusters]
             range_length = int(len(effort)/8)
             
             effort = sorted(effort)
@@ -428,29 +431,37 @@ if __name__ == '__main__':
             
             greens = make_n_colors(cm.Greens_r, 80)
             reds = make_n_colors(cm.Reds, 240)
-
-            for quadrant in self.quadrants:
-                xmin = quadrant.xmin
-                xmax = quadrant.xmax
-                ymin = quadrant.ymin
-                ymax = quadrant.ymax
-                if quadrant.qvariance() < range1:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[0], visible=True, linewidth=0)                    
-                elif quadrant.qvariance() < range2:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[19], visible=True, linewidth=0)                    
-                elif quadrant.qvariance() < range3:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[39], visible=True, linewidth=0)                    
-                elif quadrant.qvariance() < range4:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[59], visible=True, linewidth=0)                    
-                elif quadrant.qvariance() < range5:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[60], visible=True, linewidth=0)                    
-                elif quadrant.qvariance() < range6:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[120], visible=True, linewidth=0)                    
-                elif quadrant.qvariance() < range7:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[180], visible=True, linewidth=0)                    
-                else:
-                    self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[239], visible=True, linewidth=0)                    
-
+            
+            for cluster in self.clusters:
+                for quadrant in cluster.quadrants:
+                    xmin = quadrant.xmin
+                    xmax = quadrant.xmax
+                    ymin = quadrant.ymin
+                    ymax = quadrant.ymax
+                    if cluster.cmedian() < range1:
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[0], visible=True, linewidth=0)
+                    elif cluster.cmedian() < range2:
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[19], visible=True, linewidth=0)                    
+                    elif cluster.cmedian() < range3:
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[39], visible=True, linewidth=0)                    
+                    elif cluster.cmedian() < range4:
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=greens[59], visible=True, linewidth=0)                    
+                    elif cluster.cmedian() < range5:
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[60], visible=True, linewidth=0)                    
+                    elif cluster.cmedian() < range6:
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[120], visible=True, linewidth=0)                    
+                    elif cluster.cmedian() < range7:
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[180], visible=True, linewidth=0)                    
+                    else:
+                        self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[239], visible=True, linewidth=0)                
+                        
+            for cluster in self.clusters:
+                xmin = cluster.quadrants[-1].xmin
+                xmax = cluster.quadrants[-1].xmax
+                ymin = cluster.quadrants[-1].ymin
+                ymax = cluster.quadrants[-1].ymax
+                self.subplot.text((xmin+xmax)/2, (ymin+ymax)/2, "%d" % clusters.index(cluster), ha="center", size=14)
+                
             self.subplot.draw()            
                     
     arff = Arff("data/china.arff")
@@ -460,10 +471,11 @@ if __name__ == '__main__':
 
     trainXY = log_y(log_x(deepcopy(ic.instances)))
     quadrants = QuadrantTree(trainXY).leaves()
+    clusters = GRIDCLUS(quadrants)
 
     app = wx.PySimpleApp( 0 )
     frame = wx.Frame( None, wx.ID_ANY, 'WxPython and Matplotlib', size=(768, 512) )
-    panel = DemoPlotPanel( frame, trainXY, quadrants, arff.headers, ic)
+    panel = DemoPlotPanel( frame, trainXY, quadrants, clusters, arff.headers, ic)
 
     menu = wx.Menu()
     menu.Append(wx.ID_ABOUT, "&About",

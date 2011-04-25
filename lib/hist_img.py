@@ -6,9 +6,21 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager as fm
 import numpy as np
 from arff import *
+from util import *
+from quadrant import *
+from instance import *
+from gridclus2 import *
 
-arff = Arff("data/coc81.arff")
-trans = transpose(arff.data)
+arff = Arff("data/china.arff")
+dc = DataCollection(arff.data)
+ic = InstanceCollection(dc)
+ic.normalize_coordinates()
+trainXY = log_y(log_x(deepcopy(ic.instances)))
+quadrants = QuadrantTree(trainXY).leaves()
+clusters = GRIDCLUS(quadrants)
+
+
+trans = transpose(random_element(clusters).datums())
 
 print arff.headers
 
@@ -30,7 +42,7 @@ for row in range(6):
             axisNum += 1
             ax = plt.subplot(5, 4, axisNum)
             x = np.array(trans[t])
-            ax.hist(x, 10)
+            ax.hist(x, 16)
             for label in ax.get_xticklabels():
                 label.set_fontsize('xx-small')
             for label in ax.get_yticklabels():

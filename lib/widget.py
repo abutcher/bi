@@ -191,10 +191,16 @@ class Widget:
 
             x = np.array([one.coord.x, two.coord.x, three.coord.x, four.coord.x])
             y = np.array([one.coord.y, two.coord.y, three.coord.y, four.coord.y])
+            """
             (ar,br)=polyfit( x, y, 1)
             xr = polyval([ar,br], x)
             self.canvas.plot(x, xr, 'b.-')
-
+            """
+            z = np.polyfit(x,y,3)
+            p = np.poly1d(z)
+            p30 = np.poly1d(np.polyfit(x,y, 30))
+            xp = np.linspace(min(x), max(x), 100)
+            self.canvas.plot(x, y, ".", xp, p(xp), '-', xp, p30(xp), '--', lw=2, color='blue')
             self.trend = True
             
         plt.draw()
@@ -259,7 +265,7 @@ class Widget:
         return cmap(np.arange(n))
 
 def main():
-    arff = Arff('data/china.arff')
+    arff = Arff('data/nasa93.arff')
     dc = DataCollection(arff.data)
     ic = InstanceCollection(dc)
     ic.normalize_coordinates()

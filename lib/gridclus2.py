@@ -1,6 +1,6 @@
 from cluster import *
 
-def GRIDCLUS(quadrants, acceptance=0.4):
+def GRIDCLUS(quadrants, acceptance=0.5):
 
     tiles = []
     for quadrant in quadrants:
@@ -38,7 +38,7 @@ def GRIDCLUS(quadrants, acceptance=0.4):
     return newclusters
 
 def adjacent(a, b):
-    if ((a.xmin == b.xmax) or (a.xmax == b.xmin)) or ((a.ymin == b.ymax) or (a.ymax == b.ymin)):
+    if ((a.xmin <= b.xmax) and (a.xmax >= b.xmin)) and ((a.ymin <= b.ymax) and (a.ymax >= b.ymin)):
         return True
     else:
         return False        
