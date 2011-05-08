@@ -47,7 +47,7 @@ class QuadrantTree:
 		else:
 			grow(self.root)
 
-		self.maxv()
+		#self.maxv()
 			
 	def leaves(self):
 		leaves = []

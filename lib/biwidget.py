@@ -51,10 +51,10 @@ class ContrastDialog(wx.Dialog):
 
         self.parent = parent
 
-        for i in range(len(rlist1)):
+        for i in range(1):
             wx.StaticText(self, -1, rlist1[i].describe(), (15, i*40))
 
-        for i in range(len(rlist2)):
+        for i in range(1):
             wx.StaticText(self, -1, rlist2[i].describe(), (265, i*40))
             
         self.Bind(wx.EVT_BUTTON, self.OnClose, id=1)
@@ -208,26 +208,28 @@ if __name__ == '__main__':
                 print "Y: ", event.ydata
 
                 if len(self.contrast_quads) < 2:
-                    for quadrant in self.quadrants:
-                        xmin = quadrant.xmin
-                        xmax = quadrant.xmax
-                        ymin = quadrant.ymin
-                        ymax = quadrant.ymax
-                        if event.xdata <= xmax and event.xdata >= xmin and event.ydata <= ymax and event.ydata >= ymin:
-                            self.contrast_quads.append(quadrant)
-                    if len(self.contrast_quads) == 2:
-                        print "You've selected two contrast quadrants!"
-                        #ContrastDialog(self, -1, 'Contrast Dialog', which2n(self.headers, discretize(self.contrast_quads[0].datums())), which2n(self.headers, discretize(self.contrast_quads[1].datums())))
-                        ContrastDialog(self, -1, 'Contrast Dialog', [], [])
-                else:
+                    for cluster in self.clusters:
+                        for quadrant in cluster.quadrants:
+                            xmin = quadrant.xmin
+                            xmax = quadrant.xmax
+                            ymin = quadrant.ymin
+                            ymax = quadrant.ymax
+                            if event.xdata <= xmax and event.xdata >= xmin and event.ydata <= ymax and event.ydata >= ymin:
+                                self.contrast_quads.append(cluster)
+                if len(self.contrast_quads) == 2:
+                    print "You've selected two contrast clusters!"
+                    ContrastDialog(self, -1, 'Contrast Dialog', which2n(self.headers, discretize(self.contrast_quads[0].datums())), which2n(self.headers, discretize(self.contrast_quads[1].datums())))
+                        #ContrastDialog(self, -1, 'Contrast Dialog', [], [])
+                else:                    
                     self.contrast_quads = []
-                    for quadrant in self.quadrants:
-                        xmin = quadrant.xmin
-                        xmax = quadrant.xmax
-                        ymin = quadrant.ymin
-                        ymax = quadrant.ymax
-                        if event.xdata <= xmax and event.xdata >= xmin and event.ydata <= ymax and event.ydata >= ymin:
-                            self.contrast_quads.append(quadrant)                    
+                    for cluster in self.clusters:
+                        for quadrant in cluster.quadrants:
+                            xmin = quadrant.xmin
+                            xmax = quadrant.xmax
+                            ymin = quadrant.ymin
+                            ymax = quadrant.ymax
+                            if event.xdata <= xmax and event.xdata >= xmin and event.ydata <= ymax and event.ydata >= ymin:
+                                self.contrast_quads.append(cluster)                    
 
         def onAbout(self, event):
             dlg = wx.MessageDialog(self.parent, "About information.",
@@ -236,13 +238,48 @@ if __name__ == '__main__':
             dlg.Destroy()
 
         def contrastSet(self, event):
+            """
             if self.contrast:
                 print "End contrasting!"
                 self.contrast = False
             else:
                 print "Begin contrasting!"
                 self.contrast = True
+            """
+            dall = ic.datums()
+            rall = which2n(arff.headers, dall)
+            print "ALL done."
+            cluster_rules = []
+            
+            for cluster in self.clusters:
+                print len(cluster.datums())
+                if len(cluster.datums()) < 20:
+                    cluster_rules.append([])
+                else:
+                    cluster_rules.append(which2n(arff.headers, cluster.datums()))
+                    print "C%d done, size=%d." % (clusters.index(cluster), len(cluster.datums()))
+                    
+            grid = {}
+            for header in self.headers[0:-1]:
+                for value in list(set(transpose(dall)[self.headers.index(header)])):
+                    grid[(header, value)] = []
+                    
+            for rule in rall[0:19]:
+                for thisors in rule.ands:
+                    for value in thisors.values:
+                        if "ALL" not in grid[(thisors.forr, value)]:
+                            grid[(thisors.forr, value)].append("ALL")
+                            
+            for crules in cluster_rules:
+                for rule in crules[0:19]:
+                    for thisors in rule.ands:
+                        for value in thisors.values:
+                            if "C%d" % cluster_rules.index(crules) not in grid[(thisors.forr, value)]:
+                                grid[(thisors.forr, value)].append("C%d" % cluster_rules.index(crules))
 
+            for derp in grid:
+                print derp, grid[derp]
+                
         def updateYouAreHere(self, you_are_here):
             self.you_are_here = you_are_here
 
@@ -409,11 +446,11 @@ if __name__ == '__main__':
             self.subplot.set_xlim(xlim)
             self.subplot.set_ylim(ylim)
 
-            x = num.array([inst.coord.x for inst in self.instances])
-            y = num.array([inst.coord.y for inst in self.instances])            
-            self.subplot.plot(x, y, "o", markersize=3, alpha=0.5)
+            #x = num.array([inst.coord.x for inst in self.instances])
+            #y = num.array([inst.coord.y for inst in self.instances])            
+            #self.subplot.plot(x, y, "o", markersize=3, alpha=0.5)
 
-            self.subplot.plot(self.you_are_here.coord.x, self.you_are_here.coord.y, "ro", markersize=10)
+            #self.subplot.plot(self.you_are_here.coord.x, self.you_are_here.coord.y, "ro", markersize=10)
 
             effort = [cluster.cmedian() for cluster in self.clusters]
             range_length = int(len(effort)/8)
@@ -456,16 +493,17 @@ if __name__ == '__main__':
                         self.subplot.bar(xmin, (ymax-ymin), width=(xmax-xmin), bottom=ymin, facecolor=reds[239], visible=True, linewidth=0)                
                         
             for cluster in self.clusters:
-                xmin = cluster.quadrants[-1].xmin
-                xmax = cluster.quadrants[-1].xmax
-                ymin = cluster.quadrants[-1].ymin
-                ymax = cluster.quadrants[-1].ymax
-                self.subplot.text((xmin+xmax)/2, (ymin+ymax)/2, "%d" % clusters.index(cluster), ha="center", size=14)
+                xmin = cluster.quadrants[0].xmin
+                xmax = cluster.quadrants[0].xmax
+                ymin = cluster.quadrants[0].ymin
+                ymax = cluster.quadrants[0].ymax
+                self.subplot.text((xmin+xmax)/2, (ymin+ymax)/2, "%d" % clusters.index(cluster), ha="center", size=18, weight="bold")
                 
             self.subplot.draw()            
                     
-    arff = Arff("data/china.arff")
-    dc = DataCollection(arff.data)
+    arff = Arff("data/nasa93-dem.arff")
+    arff2 = Arff("data/coc81-dem.arff")
+    dc = DataCollection(discretize(arff.data+arff2.data, 4))
     ic = InstanceCollection(dc)
     ic.normalize_coordinates()
 

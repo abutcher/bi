@@ -18,7 +18,7 @@
 @attribute Dev.Type numeric
 @attribute Duration numeric
 @attribute N_effort numeric
-@attribute Effort numeric
+@attribute #Effort numeric
 
 @data
 1,1587,774,260,340,128,0,1502,0,0,4.7,5,4.7,5,4,0,4,7490,7490

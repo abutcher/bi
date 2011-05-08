@@ -265,7 +265,7 @@ class Widget:
         return cmap(np.arange(n))
 
 def main():
-    arff = Arff('data/nasa93.arff')
+    arff = Arff('data/china.arff')
     dc = DataCollection(arff.data)
     ic = InstanceCollection(dc)
     ic.normalize_coordinates()

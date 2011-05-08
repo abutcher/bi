@@ -35,19 +35,18 @@ def roundsn(headers, datums, round0):
     for r in round0:
         this = Rule()
         this.createFull("bland", r, headers, datums)
-        if this.support > 16:
-            rules.append(this)
+        # if this.support > 16:
+        rules.append(this)
 
     while lives > 0:
         this = None
-        found = None
+        found = True
         for i in range(20):
             this = combine(twos(explode(normalize(rules))))
             this.score = this.scoren(headers, datums)
-            for that in rules:
-                if this == that:
-                    found = True
-            if not found == True or 5 > this.support:
+            if this in rules:
+                found = False
+            if not found == True and 5 > this.support:
                 rules.insert(0, this)
         rules = prune(rules)
         if rules[0].score > max:
@@ -100,7 +99,7 @@ class Rule:
         ands = ""
         for a in self.ands:
             ands += a.describe()
-        return "Class: " + str(self.klass) + "\nORS\n" + ands + "Score: " + str(self.score) + "\nAvgs: " + str(self.avgs) + "\nUtils: " + str(self.utils) + "\nMarked: " + str(self.marked) + "\nSupport: " + str(self.support) + "\n"
+        return "ORS\n" + ands + "Score: " + str(self.score) + "\nAvgs: " + str(self.avgs) + "\nUtils: " + str(self.utils) + "\nSupport: " + str(self.support) + "\n"
 
     def scoren(self, headers, datums):
         rowlistout = []
@@ -122,7 +121,8 @@ class Rule:
             if this == 0:
                 goalavgs.insert(0, 0)
             else:
-                goalavgs.insert(0, this / len(rowlistout))
+                #goalavgs.insert(0, this / len(rowlistout))
+                goalavgs.insert(0, len(rowlistout)/len(datums))
         self.support = len(rowlistout)
         self.avgs = goalavgs
         weightedavgs = []
@@ -132,7 +132,7 @@ class Rule:
                     weightedavgs.insert(0, 0)
                 else:
                     weightedavgs.insert(0, (goalavgs[goals.index(i)]-min(transpose(datums)[i]))/(max(transpose(datums)[i]) - min(transpose(datums)[i])))
-            else:
+            elif headers[i][0] == "#":
                 if goalavgs[goals.index(i)] == 0:
                     weightedavgs.insert(0, 0)
                 else:
@@ -152,7 +152,7 @@ class Ors:
         self.forr = forr
         self.values = values
     def describe(self):
-        return "For: " + str(self.forr) + "\nValues: " + str(self.values) + "\n"
+        return "For: " + str(self.forr) + ", Values: " + str(self.values) + "\n"
 
 def magnitude(l):
     return math.sqrt(sum([a**2 for a in l]))
@@ -274,8 +274,7 @@ def radians_to_degrees(theta):
     return theta * (180 / math.pi)
 
 if __name__ == "__main__":
-    arff = Arff("data/coc81.arff")
+    arff = Arff("data/china.arff")
     rules = which2n(arff.headers, discretize(arff.data))
     for rule in rules:
         print rule.describe()
-    

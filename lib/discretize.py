@@ -1,6 +1,7 @@
 #!/usr/bin/env python
-import arff
+from arff import *
 from util import *
+from copy import deepcopy
 
 def discretize(data, n=10):
     trans = transpose(data)
@@ -8,7 +9,9 @@ def discretize(data, n=10):
         if isnumeric(trans[i][0]):
             scol = sorted(trans[i])
             for j in range(len(trans[i])):
-                trans[i][j] = (scol.index(trans[i][j]) / (len(scol) / n))
+                trans[i][j] = (scol.index(trans[i][j]) / (len(scol) / n))+1
+                if trans[i][j] == n + 1:
+                    trans[i][j] = n
     return transpose(trans)
 
 def discretize_class_values(data, n=10):
@@ -19,8 +22,9 @@ def discretize_class_values(data, n=10):
     return transpose(trans)
 
 if __name__ == "__main__":
-    arff = arff.Arff("arff/coc81.arff")
-    data = discretize_class_values(arff.data)
+    arff1 = Arff("data/coc81-dem.arff")
+    arff2 = Arff("data/nasa93-dem.arff")
+    data = discretize(arff1.data+arff2.data, 7)
     for datum in data:
         print datum
             

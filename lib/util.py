@@ -113,7 +113,10 @@ def separate(these):
     return thisgroup, thatgroup
 
 def random_element(l):
-    return l[random.randint(0,len(l) - 1)]
+    if len(l) == 0:
+        print "LENGTH IS 0 WHAT WERE YOU THINKING!"
+    else:
+        return l[random.randint(0,len(l)-1)]
 
 def closest_to(this, these, d=sys.maxint):
     for instance in these:

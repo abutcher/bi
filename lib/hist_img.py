@@ -20,12 +20,15 @@ quadrants = QuadrantTree(trainXY).leaves()
 clusters = GRIDCLUS(quadrants)
 
 
-trans = transpose(random_element(clusters).datums())
 
-print arff.headers
+
+trans = transpose(clusters[2].datums())
+trans1 = transpose(clusters[4].datums())
+
+#print arff.headers
 
 for i in range(len(trans)-1):
-    print trans[i][0]
+    #print trans[i][0]
     if type(trans[i][0]) is str:
         trans.remove(trans[i])
         arff.headers.remove(arff.headers[i])
@@ -42,7 +45,9 @@ for row in range(6):
             axisNum += 1
             ax = plt.subplot(5, 4, axisNum)
             x = np.array(trans[t])
-            ax.hist(x, 16)
+            y = np.array(trans1[t])
+            h1 = ax.hist(y, 16, color='#087432', label='Cluster 4')
+            h2 = ax.hist(x, 16, color='#fcbfa7', label='Cluster 2')
             for label in ax.get_xticklabels():
                 label.set_fontsize('xx-small')
             for label in ax.get_yticklabels():
