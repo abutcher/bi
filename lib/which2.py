@@ -35,8 +35,8 @@ def roundsn(headers, datums, round0):
     for r in round0:
         this = Rule()
         this.createFull("bland", r, headers, datums)
-        # if this.support > 16:
-        rules.append(this)
+        if this.support > 16:
+            rules.append(this)
 
     while lives > 0:
         this = None
@@ -121,8 +121,8 @@ class Rule:
             if this == 0:
                 goalavgs.insert(0, 0)
             else:
-                #goalavgs.insert(0, this / len(rowlistout))
-                goalavgs.insert(0, len(rowlistout)/len(datums))
+                goalavgs.insert(0, this / len(rowlistout))
+                #goalavgs.insert(0, len(rowlistout)/len(datums))
         self.support = len(rowlistout)
         self.avgs = goalavgs
         weightedavgs = []
