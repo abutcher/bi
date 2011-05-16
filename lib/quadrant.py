@@ -3,7 +3,7 @@ import numpy
 import math
 
 class QuadrantTree:
-	
+
 	#@print_timing
 	def __init__(self, instances, lives=False, numlives=3):
 		minx, miny = sys.maxint, sys.maxint
@@ -42,13 +42,13 @@ class QuadrantTree:
 						grow_lives(child, numlives-1)
 					else:
 						grow_lives(child, numlives)
-		if lives:			
+		if lives:
 			grow_lives(self.root, numlives)
 		else:
 			grow(self.root)
 
 		#self.maxv()
-			
+
 	def leaves(self):
 		leaves = []
 		def collect_leaves(quadrant):
@@ -109,7 +109,7 @@ class QuadrantTree:
 						for child in quadrant.children:
 							keep_cutting(child, level + 1)
 		keep_cutting(self.root)
-	
+
 class Quadrant:
 
 	def __init__(self, xmin, xmax, ymin, ymax, instances):
@@ -132,7 +132,7 @@ class Quadrant:
 			return 0
 		else:
 			return n/volume
-	
+
 	def coords(self):
 		return [ inst.coord for inst in self.instances ]
 
@@ -144,7 +144,7 @@ class Quadrant:
 
 	def datums(self):
 		return [ inst.datum for inst in self.instances ]
-	
+
 	def split(self):
 		x_split = equal_frequency_ticks_x(self.coords(), 1)[0]
 		y_split = equal_frequency_ticks_y(self.coords(), 1)[0]
@@ -152,7 +152,7 @@ class Quadrant:
 			 Quadrant(x_split, self.xmax, self.ymin, y_split, self.instances_in_bounds(x_split, self.xmax, self.ymin, y_split)),
 			 Quadrant(self.xmin, x_split, y_split, self.ymax, self.instances_in_bounds(self.xmin, x_split, y_split, self.ymax)),
 			 Quadrant(x_split, self.xmax, y_split, self.ymax, self.instances_in_bounds(x_split, self.xmax, y_split, self.ymax)) ]
-		
+
 	def instances_in_bounds(self, xmin, xmax, ymin, ymax):
 		instances = []
 		for instance in self.instances:
@@ -168,7 +168,7 @@ class Quadrant:
 
 	def qvariance(self):
 		return variance([inst.datum for inst in self.instances])
-	
+
 	def weighted_variance(self):
 		if self.children == []:
 			return self.qvariance()
@@ -179,12 +179,12 @@ class Quadrant:
 				num += (child.qvariance() * len(child.instances))
 				denom += (len(child.instances))
 			return (num / denom)
-			
+
 	def qmedian(self):
 		return median(transpose([inst.datum for inst in self.instances])[-1])
 
 	def is_adjacent(self, other_quadrant):
-		if ((self.xmin == other_quadrant.xmax) or (self.xmax == other_quadrant.xmin)) or ((self.ymin == other_quadrant.ymax) or (self.ymax == other_quadrant.ymin)):
+		if ((self.xmin <= other_quadrant.xmax) and (self.xmax >= other_quadrant.xmin)) and ((self.ymin <= other_quadrant.ymax) and (self.ymax >= other_quadrant.ymin)):
 			return True
 		else:
-			return False
+			return False       

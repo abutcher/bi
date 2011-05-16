@@ -63,5 +63,5 @@ if __name__ == "__main__":
     with Timer("%d samples, histograms and emd for dependent var" % (len(d1[0]))):
         d1_h = hist(d1[-2])
         d2_h = hist(d2[-2])
-        
+
         print emd(d1_h, d2_h)
