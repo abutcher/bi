@@ -8,9 +8,14 @@ from gridclus2 import *
 from which2 import *
 from bore2 import *
 
-arff1 = Arff("data/xalan2.7.arff")
-#arff2 = Arff("data/nasa93-dem.arff")
-dc = DataCollection(discretize(arff1.data, 4))
+arff1 = Arff("data/nasa93-dem.arff")
+arff2 = Arff("data/coc81-dem.arff")
+datar = arff1.data+arff2.data
+datar = remove_column(datar, -1)
+datar = remove_column(datar,-1)
+print len(datar)
+arff1.headers = arff1.headers[0:-2]
+dc = DataCollection(discretize(datar, 7))
 ic = InstanceCollection(dc)
 ic.normalize_coordinates()
 trainXY = log_y(log_x(deepcopy(ic.instances)))

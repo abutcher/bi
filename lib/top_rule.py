@@ -1,6 +1,4 @@
 #!/opt/local/bin/python2.6
-
-
 from arff import *
 from util import *
 from quadrant import *
@@ -9,10 +7,17 @@ from gridclus2 import *
 from which2 import *
 from bore2 import *
 
-arff1 = Arff("data/coc81-dem.arff")
-arff2 = Arff("data/nasa93-dem.arff")
-dc = DataCollection(discretize(arff1.data+arff2.data, 4))
+arff1 = Arff("data/jedit4.0.arff")
+#arff2 = Arff("data/coc81-dem.arff")
+#datar = arff1.data+arff2.data
+datar = arff1.data
+#datar = remove_column(datar, -1)
+#datar = remove_column(datar,-1)
+#arff1.headers = arff1.headers[0:-2]
+dc = DataCollection(discretize(datar, 7))
 ic = InstanceCollection(dc)
+print "EAST: ", ic.east
+print "WEST:, ", ic.west
 ic.normalize_coordinates()
 trainXY = log_y(log_x(deepcopy(ic.instances)))
 quadrants = QuadrantTree(trainXY).leaves()

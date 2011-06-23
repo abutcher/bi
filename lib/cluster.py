@@ -43,8 +43,18 @@ class Cluster:
                     result = True
         return result
 
+    def neighbors(self, other_clusters):
+        neighbors = []
+        for c in other_clusters:
+            if c is not self and self.is_neighbor(c):
+                neighbors.append(c)
+        return neighbors
+
+    def neighbor_count(self, other_clusters):
+        return len(self.neighbors(other_clusters))
+
     def cmedian(self):
-        return np.average([quad.qmedian() for quad in self.quadrants])
+        return np.average([quad.qmedian() for quad in self.quadrants if len(filter(lambda d: d[-1] != '?', quad.datums())) != 0])
         
 def cluster_prune(clusters, pct):
     if len(clusters) == 1:

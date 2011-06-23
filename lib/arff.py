@@ -6,20 +6,27 @@ class Arff:
 
     def __init__(self, filename=None):
         self.data = []
+        self.name = ""
         self.headers = []
         if type(filename) == list:
+            self.numsets = len(filename)            
             if type(filename[0]) == str:
                 for addthis in filename:
                     self.extract(addthis)
+                    self.name += addthis.split('/')[-1].split(".arff")[0]
             # If filename is a list of lists, then it's a
             # pre-processed dataset that we can just assign
             # to self.data and move on.
             elif type(filename[0]) == list:
                 self.data = filename
+            self.extract_headers(filename[0])
         else:
+            self.numsets = 1
             self.extract(filename)
             self.extract_headers(filename)
-
+            self.name = filename.split('/')[-1].split(".arff")[0]
+        #self.headers.insert(0, "dataset")
+        
     def extract(self, path):
         try:
             reader = csv.reader(open(path, "r"))
@@ -31,6 +38,7 @@ class Arff:
                 for i in range(len(row)):
                     if isnumeric(row[i]):
                         row[i] = float(row[i])
+                #row.insert(0, path)
                 self.data.append(row)
 
     def extract_headers(self, path):

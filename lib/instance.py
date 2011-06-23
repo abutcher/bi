@@ -1,10 +1,12 @@
 from util import *
+from copy import deepcopy
 
 class Instance:
 
 	def __init__(self, coord, datum):
 		self.coord = coord
 		self.datum = datum
+		self.unknown = False
 
 	def Coord(self):
                 return [self.coord.x, self.coord.y, self.klass()]
@@ -18,7 +20,16 @@ class InstanceCollection:
                 self.instances = []
                 self.max_x = 0
                 self.max_y = 0
-		east, west = data_collection.find_poles()
+		
+		east, west = data_collection.exhaustive_find_poles()
+		d = distance(east, west)
+		#for i in range(30):
+		#	n_east, n_west = data_collection.find_poles()
+		#	if distance(n_east, n_west) > d:
+		#		east = n_east
+		#		west = n_west
+		#		d = distance(east, west)
+		#
 		self.east = east
 		self.west = west
 		base_d = distance(east, west)
@@ -119,6 +130,7 @@ class DataCoordinate:
 class DataCollection:
 	def __init__(self, datums):
 		self.datums = datums
+		self.backup = deepcopy(datums)
 	
 	def add_datum(self, datum):
 		datums.append(datum)
@@ -133,3 +145,13 @@ class DataCollection:
 		self.datums.append(east)
 		self.datums.append(west)
 		return east, west
+
+	def exhaustive_find_poles(self):
+		d = [-1, None]
+		for datum in self.datums:
+			for other_datum in self.datums:
+				if distance(datum, other_datum) > d[0]:
+					d[0] = distance(datum, other_datum)
+					d[1] = (datum, other_datum)
+		return d[1][0], d[1][1]
+	

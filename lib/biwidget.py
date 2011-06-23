@@ -191,8 +191,27 @@ if __name__ == '__main__':
             x = num.array([inst.coord.x for inst in self.instances])
             y = num.array([inst.coord.y for inst in self.instances])
 
-            self.subplot.plot(x,y, "o", markersize=3, alpha=0.5)
+            sets = list(set(transpose(arff.data)[0]))
 
+            print sets[0], "blue"
+            print sets[1], "red"
+            print sets[2], "green"
+
+            for inst in self.instances:
+                if inst.datum[0] == sets[0]:
+                    self.subplot.plot(inst.coord.x,inst.coord.y, "o", markerfacecolor="blue", markersize=3, alpha=0.5)
+                elif inst.datum[0] == sets[1]:
+                    self.subplot.plot(inst.coord.x,inst.coord.y, "o", markerfacecolor="red", markersize=3, alpha=0.5)
+                elif inst.datum[0] == sets[2]:
+                    self.subplot.plot(inst.coord.x,inst.coord.y, "o", markerfacecolor="green", markersize=3, alpha=0.5)
+                    """
+                elif inst.datum[0] == sets[3]:
+                    self.subplot.plot(inst.coord.x,inst.coord.y, "o", markerfacecolor="yellow", markersize=3, alpha=0.5)
+                elif inst.datum[0] == sets[4]:
+                    self.subplot.plot(inst.coord.x,inst.coord.y, "o", markerfacecolor="orange", markersize=3, alpha=0.5)
+                elif inst.datum[0] == sets[5]:
+                    self.subplot.plot(inst.coord.x,inst.coord.y, "o", markerfacecolor="purple", markersize=3, alpha=0.5)
+                    """
             self.subplot.plot(self.you_are_here.coord.x, self.you_are_here.coord.y, "ro", markersize=10)
             
             for quadrant in self.quadrants:
@@ -501,9 +520,10 @@ if __name__ == '__main__':
                 
             self.subplot.draw()            
                     
-    arff = Arff("data/nasa93-dem.arff")
-    arff2 = Arff("data/coc81-dem.arff")
-    dc = DataCollection(discretize(arff.data+arff2.data, 4))
+    #arff = Arff(["data/jedit/jedit4.2.arff", "data/xerces/xerces1.4.arff", "data/lucene/lucene2.4.arff", "data/velocity/velocity1.6.arff", "data/xalan/xalan2.7.arff", "data/tomcat.arff"])
+    arff = Arff(["data/lucene/lucene2.0.arff", "data/velocity/velocity1.4.arff", "data/xalan/xalan2.7.arff"])
+    #dc = DataCollection(discretize(arff.data, 7))
+    dc = DataCollection(arff.data)
     ic = InstanceCollection(dc)
     ic.normalize_coordinates()
 

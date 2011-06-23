@@ -22,7 +22,7 @@ def which2n(headers, datums):
 def round0n(headers, datums):
     """ Round 0 returns all possible singleton rules... ((temp 75),
     (weather sunny), (weather rainy)...) """
-    return list(set([(headers[i], datum[i]) for datum in datums for i in range(len(datum)-1)]))
+    return list(set([(headers[i], datum[i]) for datum in datums for i in range(len(datum)-2)]))
 
 def roundsn(headers, datums, round0):
     """ Continually combine rules and score them. If max score doesn't
@@ -101,7 +101,16 @@ class Rule:
             ands += a.describe()
         return "ORS\n" + ands + "Score: " + str(self.score) + "\nAvgs: " + str(self.avgs) + "\nUtils: " + str(self.utils) + "\nSupport: " + str(self.support) + "\n"
 
-    def scoren(self, headers, datums):
+    def describe_short(self):
+        ands = ""
+        for a in self.ands:
+            ands += a.describe()
+        return ands
+
+    def scoren(self, headers, datums_u):
+        datums = deepcopy(datums_u)
+        remove = []
+        datums = filter (lambda d: d[-1] != '?', datums)
         rowlistout = []
         goals = []
         for header in headers:
@@ -118,25 +127,30 @@ class Rule:
                 goalsums[counter] += row[g]
                 counter += 1
         for this in goalsums:
-            if this == 0:
-                goalavgs.insert(0, 0)
+            this = float(this)
+            if this == 0.0:
+                goalavgs.insert(0, 0.0)
             else:
-                goalavgs.insert(0, this / len(rowlistout))
-                #goalavgs.insert(0, len(rowlistout)/len(datums))
+                #goalavgs.insert(0, this / len(rowlistout))
+                goalavgs.insert(0, len(rowlistout)/len(datums))
         self.support = len(rowlistout)
         self.avgs = goalavgs
         weightedavgs = []
         for i in goals:
             if headers[i][0] == "!":
-                if goalavgs[goals.index(i)] == 0:
-                    weightedavgs.insert(0, 0)
+                if goalavgs[goals.index(i)] == 0.0:
+                    weightedavgs.insert(0, 0.0)
                 else:
-                    weightedavgs.insert(0, (goalavgs[goals.index(i)]-min(transpose(datums)[i]))/(max(transpose(datums)[i]) - min(transpose(datums)[i])))
+                    weightedavgs.insert(0, float(goalavgs[goals.index(i)]-min(transpose(datums)[i]))/float(max(transpose(datums)[i]) - min(transpose(datums)[i])))
             elif headers[i][0] == "#":
-                if goalavgs[goals.index(i)] == 0:
-                    weightedavgs.insert(0, 0)
+                if goalavgs[goals.index(i)] == 0.0:
+                    weightedavgs.insert(0, 1.0)
                 else:
-                    weightedavgs.insert(0, (max(transpose(datums)[i]) - goalavgs[goals.index(i)]) / (max(transpose(datums)[i]) - min(transpose(datums)[i])))
+                    ma = float(max(transpose(datums)[i]))
+                    t = float(goalavgs[goals.index(i)])
+                    mi = float(min(transpose(datums)[i]))
+                             
+                    weightedavgs.insert(0, (ma - t) / (ma - mi))
         self.utils = weightedavgs
         return magnitude(weightedavgs)
 
@@ -166,10 +180,11 @@ def explode(l):
 
 def normalize(l):
     out = []
-    sum = 0
-    for this in l:
-        if sum < this.score:
-            sum = this.score
+    sum = max([t.score for t in l])
+    if sum == 0:
+        for this in l:
+            print this.score
+            print this.describe()
     for this in l:
         out.insert(0, [math.floor(100 * (this.score / sum)), this])
     return out

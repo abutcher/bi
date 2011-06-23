@@ -134,7 +134,7 @@ def farthest_from(this, these, d=0.0):
 
 def distance(vecone, vectwo, d=0.0):
     for i in range(len(vecone) - 1):
-        if isnumeric(vecone[i]):
+        if isnumeric(vecone[i]) and isnumeric(vectwo[i]):
             d = d + (vecone[i] - vectwo[i])**2
         elif vecone[i] is not vectwo[i]:
             d += 1.0
@@ -244,3 +244,8 @@ def chopInTwo(data):
     g2 = data[int(len(data)/2)+1:-1]
     return g1, g2
 
+def remove_column(data, i):
+    trans = transpose(data)
+    del trans[i]
+    data = transpose(trans)
+    return data

@@ -24,9 +24,9 @@
 @attribute site {n}
 @attribute sced {l,h}
 @attribute kloc numeric
-@attribute effort numeric
+@attribute #effort numeric
 @attribute defects numeric
-@attribute #months numeric
+@attribute months numeric
 
 @data
 1,h,h,h,vh,h,h,l,h,n,n,n,n,l,n,n,n,n,n,h,n,n,l,25.9,117.6,808,15.3
