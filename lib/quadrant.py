@@ -187,4 +187,4 @@ class Quadrant:
 		if ((self.xmin <= other_quadrant.xmax) and (self.xmax >= other_quadrant.xmin)) and ((self.ymin <= other_quadrant.ymax) and (self.ymax >= other_quadrant.ymin)):
 			return True
 		else:
-			return False       
+			return False

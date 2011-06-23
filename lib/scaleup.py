@@ -9,6 +9,7 @@ from which2 import *
 from scipy import stats
 from copy import deepcopy
 import random
+from gaps import *
 
 xalan = ["data/xalan/xalan2.4.arff", "data/xalan/xalan2.5.arff", "data/xalan/xalan2.6.arff", "data/xalan/xalan2.7.arff"]
 jedit = ["data/jedit/jedit3.2.arff", "data/jedit/jedit4.0.arff", "data/jedit/jedit4.1.arff", "data/jedit/jedit4.2.arff"]
@@ -21,17 +22,17 @@ files = [xalan[-1], jedit[-1], xerces[-1], lucene[-1], velocity[-1]]
 arffs = []
 for f in files:
     arffs.append(Arff(f))
-    for of in files:
-        if f is not of:
-            arff = Arff([f, of])
-            if arff not in arffs:
-                arffs.append(arff)
+    #for of in files:
+    #    if f is not of:
+    #        arff = Arff([f, of])
+    #        if arff not in arffs:
+    #            arffs.append(arff)
 
-for i in range(len(files)):
-    arffs.append(Arff(files[0:i+1]))
+#for i in range(len(files)):
+#    arffs.append(Arff(files[0:i+1]))
 
 arffs = list(set(arffs))
-arffs = sorted(arffs, key=lambda a: len(a.data), reverse=True)
+arffs = sorted(arffs, key=lambda a: len(a.data))
 
 for a in arffs:
     a.data = remove_column(a.data, 0)
@@ -68,7 +69,7 @@ for a in arffs:
 
     best_all_rule = which2n(a.headers, dall)[0]
     #print best_all_rule.describe()
-    
+
     glob = []
     # Dependent vars matching best all rule
     for datum in dall:
@@ -87,14 +88,18 @@ for a in arffs:
     for c in cluster_rules:
         here = c[0]
         rule = c[1]
+
+        there =  most_feared(here, clusters)
+
+        """
         neighbors = here.neighbors(clusters)
         neighbors = sorted(neighbors, key=lambda c: c.cmedian())
         there = neighbors[0]
+        """
         if here.cmedian() > there.cmedian():
             for datum in there.datums():
                 if rule.ruleMatch(a.headers, datum):
                     local.append(datum[-1])
-
     """
     all_local = []
     # All rules matching the local clusters
@@ -111,11 +116,11 @@ for a in arffs:
             if best_all_rule.ruleMatch(a.headers, datum):
                 all_local.append(datum[-1])
     """
-    
+
     sigdiff = False
     if stats.mannwhitneyu(raw, local)[1] > 0.5:
         sigdiff = True
-        
+
     print "\\parbox{0.6in}{%s (defects)}" % a.name
     print "\\begin{tabular}{|r|r|rr|}"
     print "\\multicolumn{4}{l}{} \\\\\\cline{3-4}"
