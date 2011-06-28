@@ -26,6 +26,11 @@ files = jedit + xerces + lucene + velocity + ant + poi + ivy
 arffs = [Arff(file) for file in files]
 files = sorted(files, key=lambda f: len(arffs[files.index(f)].data))
 
+braw = []
+bglob = []
+blocal = []
+bcross = []
+
 for i in range(8):
     unknown = random_element(files)
     other_sets = []
@@ -135,20 +140,20 @@ for i in range(8):
                 all_local.append(datum[-1])
     """
     
-    sigdiff = False
-    if stats.mannwhitneyu(raw, local)[1] > 0.5:
-        sigdiff = True
+    if stats.mannwhitneyu(raw, glob)[1] > 0.05:
+        print "Raw is not equivalent to global."
+    if stats.mannwhitneyu(glob, local)[1] > 0.05:
+        print "Global is not equivalent to local."
+    if stats.mannwhitneyu(local, localu)[1] > 0.05:
+        print "Local is not equivalent to cross."        
         
     print "\\parbox{0.6in}{%s (defects)}" % a.name
     print "\\begin{tabular}{|r|r|rr|r|}"
     print "\\multicolumn{4}{l}{} \\\\\\cline{3-4}"
     print "\\multicolumn{2}{c|}{~} & \\multicolumn{2}{c|}{treated}\\\\\\hline"
 
-    if sigdiff:
-        print "percentile & raw & global & local(*) & cross\\\\\\hline"
-    else:
-        print "percentile & raw & global & local & cross\\\\\\hline"
-
+    print "percentile & raw & global & local & cross\\\\\\hline"
+        
     try:
         rawn = [stats.scoreatpercentile(raw, 0), stats.scoreatpercentile(raw, 25), stats.scoreatpercentile(raw, 50), stats.scoreatpercentile(raw, 75), stats.scoreatpercentile(raw, 100)]
         globn = [stats.scoreatpercentile(glob, 0), stats.scoreatpercentile(glob, 25), stats.scoreatpercentile(glob, 50), stats.scoreatpercentile(glob, 75), stats.scoreatpercentile(glob, 100)]
@@ -169,3 +174,16 @@ for i in range(8):
     print "num datums & %d\\\\" % len(dall)
     print "\\end{tabular}"
     print ""
+
+    braw += raw
+    bglob += glob
+    blocal += local
+    bcross += localu
+
+
+if stats.mannwhitneyu(braw, bglob)[1] > 0.05:
+    print "BRaw is not equivalent to bglobal."
+if stats.mannwhitneyu(bglob, blocal)[1] > 0.05:
+    print "BGlobal is not equivalent to blocal."
+if stats.mannwhitneyu(blocal, bcross)[1] > 0.05:
+    print "BLocal is not equivalent to bcross."        

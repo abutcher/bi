@@ -11,13 +11,15 @@ from copy import deepcopy
 import random
 from gaps import *
 
-xalan = ["data/xalan/xalan2.4.arff", "data/xalan/xalan2.5.arff", "data/xalan/xalan2.6.arff", "data/xalan/xalan2.7.arff"]
-jedit = ["data/jedit/jedit3.2.arff", "data/jedit/jedit4.0.arff", "data/jedit/jedit4.1.arff", "data/jedit/jedit4.2.arff"]
-xerces = ["data/xerces/xerces1.2.arff", "data/xerces/xerces1.3.arff", "data/xerces/xerces1.4.arff"]
-lucene = ["data/lucene/lucene2.0.arff", "data/lucene/lucene2.2.arff", "data/lucene/lucene2.4.arff"]
-velocity = ["data/velocity/velocity1.4.arff", "data/velocity/velocity1.5.arff", "data/velocity/velocity1.6.arff"]
+xalan = ["data/xalan2.4.arff", "data/xalan2.5.arff", "data/xalan2.6.arff", "data/xalan2.7.arff"]
+jedit = ["data/jedit3.2.arff", "data/jedit4.0.arff", "data/jedit4.1.arff", "data/jedit4.2.arff"]
+xerces = ["data/xerces1.2.arff", "data/xerces1.3.arff", "data/xerces1.4.arff"]
+lucene = ["data/lucene2.0.arff", "data/lucene2.2.arff", "data/lucene2.4.arff"]
+velocity = ["data/velocity1.4.arff", "data/velocity1.5.arff", "data/velocity1.6.arff"]
 
-files = [xalan[-1], jedit[-1], xerces[-1], lucene[-1], velocity[-1]]
+#files = [xalan[-1], jedit[-1], xerces[-1], lucene[-1], velocity[-1]]
+files = velocity + lucene + jedit + xalan + xerces
+#files = [xerces[0]]
 
 arffs = []
 for f in files:
@@ -35,8 +37,8 @@ arffs = list(set(arffs))
 arffs = sorted(arffs, key=lambda a: len(a.data))
 
 for a in arffs:
-    a.data = remove_column(a.data, 0)
-    a.headers.remove("dataset")
+#    a.data = remove_column(a.data, 0)
+#    a.headers.remove("dataset")
 
     a.data = remove_column(a.data, 0)
     a.headers.remove("name")
@@ -45,7 +47,7 @@ for a in arffs:
         a.data = remove_column(a.data, 0)
         a.headers.remove("version")
 
-    dc = DataCollection(discretize(a.data, 5))
+    dc = DataCollection(discretize(a.data, 6))
     ic = InstanceCollection(dc)
     ic.normalize_coordinates()
     trainXY = log_y(log_x(deepcopy(ic.instances)))
@@ -78,16 +80,15 @@ for a in arffs:
 
     cluster_rules = []
     for cluster in clusters:
-        if len(cluster.datums()) > 20 and cluster.neighbor_count(clusters) > 0:
-            #print cluster.neighbor_count(clusters)
-            best_cluster_rule = which2n(a.headers, cluster.datums())[0]
-            cluster_rules.append((cluster, best_cluster_rule))
+        if len(cluster.datums()) > 25:# and cluster.neighbor_count(clusters) > 0:
+            best_cluster_rules = which2n(a.headers, cluster.datums())
+            cluster_rules.append((cluster, best_cluster_rules))
 
     local = []
     # Datums matching neighbor in local space
     for c in cluster_rules:
         here = c[0]
-        rule = c[1]
+        rules = c[1]
 
         there =  most_feared(here, clusters)
 
@@ -97,9 +98,19 @@ for a in arffs:
         there = neighbors[0]
         """
         if here.cmedian() > there.cmedian():
-            for datum in there.datums():
-                if rule.ruleMatch(a.headers, datum):
-                    local.append(datum[-1])
+            cnt = 0
+            localc = []
+            while not localc and cnt != len(rules) - 1:
+                #print "looping"
+                localc = [d[-1] for d in there.datums() if rules[cnt].ruleMatch(a.headers, d)]
+                #print len(localc)
+                cnt += 1
+            local += localc
+            #for datum in there.datums():
+            #   if rule.ruleMatch(a.headers, datum):
+            #        print "appending local datum"
+            #        local.append(datum[-1])
+
     """
     all_local = []
     # All rules matching the local clusters
@@ -117,6 +128,8 @@ for a in arffs:
                 all_local.append(datum[-1])
     """
 
+
+    print "CLUSTERS %d, %d > 20" % (len(clusters), len([c for c in clusters if len(c.datums()) > 20]))
     sigdiff = False
     if stats.mannwhitneyu(raw, local)[1] > 0.5:
         sigdiff = True

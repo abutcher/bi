@@ -11,14 +11,18 @@ def gaps(c, o):
     d = 0.0
     for cq in c.quadrants:
         for oq in o.quadrants:
-            d += ( float(len(cq.datums())) / float(len(c.datums())) ) * distance(cq.center(), oq.center())
+            d += ( float(len(oq.datums())) / float(len(o.datums())) )*( float(len(cq.datums())) / float(len(c.datums())) )* distance(cq.center(), oq.center())
+            #d += ( float(len(cq.datums())) / float(len(c.datums())) )* distance(cq.center(), oq.center())
     return d
 
 def most_feared(cluster, other_clusters):
     score = 0.0
     feared = None
-    for other_cluster in other_clusters if other_cluster != cluster:
-        if other_cluster.cmedian()/gaps(cluster, other_cluster) > score:
+    for other_cluster in [o for o in other_clusters if len(o.datums()) > 20]:
+        n = 1.0
+        cscore = (((other_cluster.cmedian()/max([o.cmedian() for o in other_clusters])))*(len(other_cluster.datums())/max([len(o.datums()) for o in other_clusters]))**n)/(gaps(cluster, other_cluster)/max([gaps(cluster, o) for o in other_clusters]))
+        if cscore > score:
+            score = cscore
             Feared = other_cluster
     return other_cluster
 

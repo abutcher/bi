@@ -29,6 +29,16 @@ files = sorted(files, key=lambda f: len(arffs[files.index(f)].data))
 for f in files:
     a = Arff(f)
     a.data = discretize(a.data, 7)
-    s = "%d" % len(a.data)
-    with Timer(s):
-        best_all_rule = which2n(a.headers, a.data)
+    #s = "%d" % len(a.data)
+
+    dc = DataCollection(discretize(a.data, 7))
+    ic = InstanceCollection(dc)
+    ic.normalize_coordinates()
+    trainXY = log_y(log_x(deepcopy(ic.instances)))
+    quadrants = QuadrantTree(trainXY).leaves()
+    clusters = GRIDCLUS(quadrants)
+
+    for cluster in filter(lambda c: len(c.datums()) > 20, clusters):
+        s = "%d" % len(cluster.datums())
+        with Timer(s):
+            best_all_rule = which2n(a.headers, cluster.datums())
