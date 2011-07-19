@@ -18,12 +18,19 @@ def gaps(c, o):
 def most_feared(cluster, other_clusters):
     score = 0.0
     feared = None
+    #print "Starting"
     for other_cluster in [o for o in other_clusters if len(o.datums()) > 20]:
-        n = 1.0
-        cscore = (((other_cluster.cmedian()/max([o.cmedian() for o in other_clusters])))*(len(other_cluster.datums())/max([len(o.datums()) for o in other_clusters]))**n)/(gaps(cluster, other_cluster)/max([gaps(cluster, o) for o in other_clusters]))
+        n = 2.0
+        dist_i = (gaps(cluster, other_cluster)/max([gaps(cluster, o) for o in other_clusters]))
+        #sup_i = (len(cluster.datums())-len(other_cluster.datums()))/max([len(o.datums()) for o in other_clusters])
+        sup_i = (len(other_cluster.datums()))/max([len(o.datums()) for o in other_clusters])
+        sco_i = (((other_cluster.cmedian()/max([o.cmedian() for o in other_clusters]))))
+                 
+        cscore = (sco_i*sup_i)**n/dist_i
         if cscore > score:
             score = cscore
             Feared = other_cluster
+        #print "cscore selected", cscore
     return other_cluster
 
 if __name__=="__main__":

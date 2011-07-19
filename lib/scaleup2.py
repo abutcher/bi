@@ -13,13 +13,24 @@ import sys
 
 ant = ["data/ant-1.3.arff", "data/ant-1.4.arff", "data/ant-1.5.arff", "data/ant-1.6.arff", "data/ant-1.7.arff"]
 ivy = ["data/ivy-1.1.arff", "data/ivy-1.4.arff", "data/ivy-2.0.arff"]
-jedit = ["data/jedit3.2.arff", "data/jedit4.0.arff", "data/jedit4.1.arff", "data/jedit4.2.arff", "data/jedit4.3.arff"]
-lucene = ["data/lucene2.0.arff", "data/lucene2.2.arff", "data/lucene2.4.arff"]
+jedit = ["data/jedit-3.2.arff", "data/jedit-4.0.arff", "data/jedit-4.1.arff", "data/jedit-4.2.arff", "data/jedit-4.3.arff"]
+lucene = ["data/lucene-2.0.arff", "data/lucene-2.2.arff", "data/lucene-2.4.arff"]
 poi = ["data/poi-1.5.arff", "data/poi-2.0.arff", "data/poi-2.5.arff", "data/poi-3.0.arff"]
 tomcat = ["data/tomcat.arff"]
-velocity = ["data/velocity1.4.arff", "data/velocity1.5.arff", "data/velocity1.6.arff"]
-xalan = ["data/xalan2.4.arff", "data/xalan2.5.arff", "data/xalan2.6.arff", "data/xalan2.7.arff"]
-xerces = ["data/xerces1.2.arff", "data/xerces1.3.arff", "data/xerces1.4.arff"]
+velocity = ["data/velocity-1.4.arff", "data/velocity-1.5.arff", "data/velocity-1.6.arff"]
+xalan = ["data/xalan-2.4.arff", "data/xalan-2.5.arff", "data/xalan-2.6.arff", "data/xalan-2.7.arff"]
+xerces = ["data/xerces-1.2.arff", "data/xerces-1.3.arff", "data/xerces-1.4.arff"]
+
+
+one = ["data/poi-3.0.arff", "data/ant-1.7.arff", "data/xerces-1.3.arff"]
+two = ["data/ant-1.3.arff", "data/velocity-1.4.arff", "data/lucene-2.2.arff"]
+three = ["data/jedit-3.2.arff", "data/ant-1.5.arff", "data/lucene-2.0.arff"]
+four = ["data/poi-2.0.arff", "data/xerces-1.4.arff", "data/jedit-3.2.arff"]
+five = ["data/poi-3.0.arff", "data/lucene-2.4.arff", "data/ant-1.3.arff"]
+six = ["data/poi-3.0.arff", "data/jedit-4.0.arff", "data/ant-1.6.arff"]
+seven = ["data/velocity-1.6.arff", "data/lucene-2.4.arff", "data/xerces-1.2.arff"]
+eight = ["data/ivy-1.1.arff", "data/ant-1.3.arff", "data/velocity-1.5.arff"]
+
 
 files = jedit + xerces + lucene + velocity + ant + poi + ivy
 
@@ -38,7 +49,7 @@ for i in range(8):
         set = random_element(files)
         if len(other_sets) == 0:
             other_sets.append(set)
-        elif set not in other_sets and set != unknown and set.split('/')[1].split('.')[0] not in [s.split('/')[1].split('.')[0] for s in other_sets]:
+        elif set not in other_sets and set != unknown and set.split('/')[1].split('-')[0] not in [s.split('/')[1].split('-')[0] for s in other_sets]:
             other_sets.append(set)
 
     u = Arff(unknown)

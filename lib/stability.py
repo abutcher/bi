@@ -14,9 +14,10 @@ from discretize import *
 def main():
     args = parse_options()
     arff = Arff(args.train[0])
-    arff.data = remove_column(arff.data, 0)
-    arff.headers.remove("dataset")
 
+
+    arff.headers.remove("name")
+    arff.data = remove_column(arff.data, 0)    
     """
     for i in range(20):
     random.shuffle(arff.data, random.random)
@@ -25,8 +26,10 @@ def main():
     ic = InstanceCollection(dc)
     print "EAST: ", ic.east
     print "WEST: ", ic.west
-    print ""
+    print ""    
     """
+
+    print arff.name
 
     random.shuffle(arff.data, random.random)
     train = discretize(arff.data, 4)

@@ -11,20 +11,19 @@ from copy import deepcopy
 import random
 from gaps import *
 
-xalan = ["data/xalan2.4.arff", "data/xalan2.5.arff", "data/xalan2.6.arff", "data/xalan2.7.arff"]
-jedit = ["data/jedit3.2.arff", "data/jedit4.0.arff", "data/jedit4.1.arff", "data/jedit4.2.arff"]
-xerces = ["data/xerces1.2.arff", "data/xerces1.3.arff", "data/xerces1.4.arff"]
-lucene = ["data/lucene2.0.arff", "data/lucene2.2.arff", "data/lucene2.4.arff"]
-velocity = ["data/velocity1.4.arff", "data/velocity1.5.arff", "data/velocity1.6.arff"]
+xalan = ["data/xalan-2.4.arff", "data/xalan-2.5.arff", "data/xalan-2.6.arff", "data/xalan-2.7.arff"]
+jedit = ["data/jedit-3.2.arff", "data/jedit-4.0.arff", "data/jedit-4.1.arff", "data/jedit-4.2.arff"]
+xerces = ["data/xerces-1.2.arff", "data/xerces-1.3.arff", "data/xerces-1.4.arff"]
+lucene = ["data/lucene-2.0.arff", "data/lucene-2.2.arff", "data/lucene-2.4.arff"]
+velocity = ["data/velocity-1.4.arff", "data/velocity-1.5.arff", "data/velocity-1.6.arff"]
 
 #files = [xalan[-1], jedit[-1], xerces[-1], lucene[-1], velocity[-1]]
-#files = velocity + lucene + jedit + xalan + xerces
+files = velocity + lucene + jedit + xalan + xerces
 #files = [xerces[0]]
-#files = ["data/coc81-dem.arff", "data/nasa93-dem.arff"]
-files = ["data/china.arff"]
+#files = ["data/lucene-2.4.arff"]
+#files = ["data/velocity-1.4.arff"]
 
 arffs = []
-"""
 for f in files:
     arffs.append(Arff(f))
     #for of in files:
@@ -35,9 +34,6 @@ for f in files:
 
 #for i in range(len(files)):
 #    arffs.append(Arff(files[0:i+1]))
-"""
-
-arffs.append(Arff(files))
 
 arffs = list(set(arffs))
 arffs = sorted(arffs, key=lambda a: len(a.data))
@@ -46,12 +42,12 @@ for a in arffs:
 #    a.data = remove_column(a.data, 0)
 #    a.headers.remove("dataset")
 
-#    a.data = remove_column(a.data, 0)
-#    a.headers.remove("name")
+    a.data = remove_column(a.data, 0)
+    a.headers.remove("name")
 
-#    if not a.numsets > 1:
-#        a.data = remove_column(a.data, 0)
-#        a.headers.remove("version")
+    if not a.numsets > 1:
+        a.data = remove_column(a.data, 0)
+        a.headers.remove("version")
 
     dc = DataCollection(discretize(a.data, 6))
     ic = InstanceCollection(dc)
@@ -94,20 +90,25 @@ for a in arffs:
     # Datums matching neighbor in local space
     for c in cluster_rules:
         here = c[0]
-        rules = c[1]
-
         there =  most_feared(here, clusters)
 
-        """
-        neighbors = here.neighbors(clusters)
-        neighbors = sorted(neighbors, key=lambda c: c.cmedian())
-        there = neighbors[0]
-        """
         if here.cmedian() > there.cmedian():
+            tmp = deepcopy(here)
+            here = deepcopy(there)
+            there = deepcopy(tmp)
+
+        #neighbors = here.neighbors(clusters)
+        #neighbors = sorted(neighbors, key=lambda c: c.cmedian(), reverse=True)
+        #there = neighbors[0]
+
+        combined = there.datums() + here.datums()
+        rules = which2n(a.headers, combined)
+
+        if here.cmedian() < there.cmedian():
             cnt = 0
             localc = []
             while not localc and cnt != len(rules) - 1:
-                #print "looping"
+                print "looping"
                 localc = [d[-1] for d in there.datums() if rules[cnt].ruleMatch(a.headers, d)]
                 #print len(localc)
                 cnt += 1
@@ -116,6 +117,10 @@ for a in arffs:
             #   if rule.ruleMatch(a.headers, datum):
             #        print "appending local datum"
             #        local.append(datum[-1])
+
+    print "Raw", len(dall)
+    print "Global", len(glob)
+    print "Local", len(local)
 
     """
     all_local = []

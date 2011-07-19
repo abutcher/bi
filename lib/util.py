@@ -249,3 +249,7 @@ def remove_column(data, i):
     del trans[i]
     data = transpose(trans)
     return data
+
+def remove_x_percent(data, x, original_len):
+    random.shuffle(data, random.random)
+    return data[int(round(x*original_len)):-1]

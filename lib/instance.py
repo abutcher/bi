@@ -20,8 +20,10 @@ class InstanceCollection:
                 self.instances = []
                 self.max_x = 0
                 self.max_y = 0
+		self.datums = data_collection.datums
 		
 		east, west = data_collection.exhaustive_find_poles()
+		#east, west = data_collection.find_poles()
 		d = distance(east, west)
 		#for i in range(30):
 		#	n_east, n_west = data_collection.find_poles()
@@ -32,11 +34,29 @@ class InstanceCollection:
 		#
 		self.east = east
 		self.west = west
-		base_d = distance(east, west)
+		count = 0
+		while not self.finish_instances():
+			count += 1
+		#print "COUNT,", count
 
-		for datum in data_collection.datums:
-			a = distance(west, datum)
-			b = distance(east, datum)
+	def finish_instances(self):
+		completed = True
+		base_d = distance(self.east, self.west)
+		for datum in self.datums:
+			a = distance(self.west, datum)
+			b = distance(self.east, datum)
+			if distance(self.east, datum) > distance(self.east, self.west) or distance(self.west,datum) > distance(self.east, self.west):
+				if distance(self.east,datum) > distance(self.west, datum):
+					self.datums.append(self.west)
+					self.west = datum
+					self.datums.remove(datum)
+				else:
+					self.datums.append(self.east)
+					self.east = datum
+					self.datums.remove(datum)
+				completed = False
+				self.instances = []
+				break
 			x = (b**2 - base_d**2 - a**2) / (-2 * base_d)
 			if x > self.max_x:
 				self.max_x = x
@@ -47,6 +67,7 @@ class InstanceCollection:
 			if y > self.max_y:
 				self.max_y = y
 			self.instances.append(Instance(DataCoordinate(x,y), datum))
+		return completed
 
 	def normalize_coordinates(self):
 		for instance in self.instances:
