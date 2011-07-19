@@ -1,0 +1,1339 @@
+ant-1.3
+0
+For: mfa, Values: [1]
+100.0
+
+1
+For: mfa, Values: [1]
+100.0
+
+2
+For: mfa, Values: [1]
+100.0
+
+3
+For: mfa, Values: [1]
+100.0
+
+4
+For: noc, Values: [1]
+100.0
+
+5
+For: mfa, Values: [1]
+100.0
+
+6
+For: mfa, Values: [1]
+100.0
+
+7
+For: mfa, Values: [1]
+100.0
+
+8
+For: mfa, Values: [1]
+100.0
+
+ant-1.4
+0
+For: noc, Values: [1]
+100.0
+
+1
+For: dam, Values: [2]
+100.0
+
+2
+For: mfa, Values: [1]
+100.0
+
+3
+For: mfa, Values: [1]
+100.0
+
+4
+For: mfa, Values: [1]
+100.0
+
+5
+For: dam, Values: [2]
+100.0
+
+6
+For: noc, Values: [1]
+100.0
+
+7
+For: mfa, Values: [1]
+100.0
+
+8
+For: noc, Values: [1]
+100.0
+
+ant-1.5
+0
+For: amc, Values: [1]
+100.0
+
+1
+For: amc, Values: [1]
+100.0
+
+2
+For: noc, Values: [1]
+100.0
+
+3
+For: cam, Values: [2]
+90.0
+For: cam, Values: [1, 2]
+10.0
+
+4
+For: cam, Values: [2]
+70.0
+For: cam, Values: [2, 3]
+20.0
+For: cam, Values: [1, 2]
+10.0
+
+5
+For: cam, Values: [1, 2]
+10.0
+For: cam, Values: [2]
+90.0
+
+6
+For: cam, Values: [2]
+100.0
+
+7
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+8
+For: amc, Values: [1]
+100.0
+
+ant-1.6
+0
+For: noc, Values: [1]
+100.0
+
+1
+For: cam, Values: [2]
+100.0
+
+2
+For: cam, Values: [2]
+100.0
+
+3
+For: noc, Values: [1]
+100.0
+
+4
+For: noc, Values: [1]
+100.0
+
+5
+For: noc, Values: [1]
+100.0
+
+6
+For: noc, Values: [1]
+100.0
+
+7
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+8
+For: noc, Values: [1]
+100.0
+
+ant-1.7
+0
+For: cam, Values: [2]
+100.0
+
+1
+For: amc, Values: [1]
+80.0
+For: amc, Values: [1, 2, 3]
+10.0
+For: amc, Values: [1, 3]
+10.0
+
+2
+For: cam, Values: [2]
+100.0
+
+3
+For: amc, Values: [1]
+90.0
+For: amc, Values: [1, 2]
+10.0
+
+4
+For: lcom3, Values: [4]
+100.0
+
+5
+For: cam, Values: [2]
+80.0
+For: cam, Values: [2, 3]
+10.0
+For: cam, Values: [1, 2]
+10.0
+
+6
+For: cam, Values: [2]
+100.0
+
+7
+For: cam, Values: [2]
+80.0
+For: cam, Values: [1, 2]
+20.0
+
+8
+For: cam, Values: [2]
+90.0
+For: cam, Values: [1, 2]
+10.0
+
+ivy-1.1
+0
+For: noc, Values: [1]
+100.0
+
+1
+For: noc, Values: [1]
+100.0
+
+2
+For: dam, Values: [2]
+100.0
+
+3
+For: noc, Values: [1]
+100.0
+
+4
+For: noc, Values: [1]
+100.0
+
+5
+For: dam, Values: [2]
+100.0
+
+6
+For: dam, Values: [2]
+100.0
+
+7
+For: noc, Values: [1]
+100.0
+
+8
+For: noc, Values: [1]
+100.0
+
+ivy-1.4
+0
+For: lcom3, Values: [3]
+100.0
+
+1
+For: lcom3, Values: [3]
+100.0
+
+2
+For: cam, Values: [2]
+100.0
+
+3
+For: cam, Values: [2]
+100.0
+
+4
+For: lcom3, Values: [3]
+100.0
+
+5
+For: lcom3, Values: [3]
+100.0
+
+6
+For: cam, Values: [2]
+100.0
+
+7
+For: lcom3, Values: [3]
+100.0
+
+8
+For: cam, Values: [2]
+70.0
+For: cam, Values: [2, 3]
+30.0
+
+ivy-2.0
+0
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+1
+For: amc, Values: [1]
+100.0
+
+2
+For: noc, Values: [1]
+100.0
+
+3
+For: amc, Values: [1]
+100.0
+
+4
+For: amc, Values: [1]
+100.0
+
+5
+For: cbm, Values: [1]
+100.0
+
+6
+For: noc, Values: [1]
+100.0
+
+7
+For: amc, Values: [1]
+100.0
+
+8
+For: cbm, Values: [1]
+100.0
+
+jedit-3.2
+0
+For: cam, Values: [2]
+80.0
+For: cam, Values: [2, 3]
+20.0
+
+1
+For: lcom3, Values: [3]
+100.0
+
+2
+For: lcom3, Values: [3]
+100.0
+
+3
+For: lcom3, Values: [3]
+100.0
+
+4
+For: lcom3, Values: [3]
+100.0
+
+5
+For: cam, Values: [2]
+100.0
+
+6
+For: lcom3, Values: [3]
+100.0
+
+7
+For: lcom3, Values: [3]
+100.0
+
+8
+For: lcom3, Values: [3]
+100.0
+
+jedit-4.0
+0
+For: cam, Values: [2]
+100.0
+
+1
+For: lcom3, Values: [3]
+100.0
+
+2
+For: cam, Values: [2]
+100.0
+
+3
+For: cam, Values: [2]
+90.0
+For: cam, Values: [1, 2]
+10.0
+
+4
+For: cam, Values: [2]
+90.0
+For: cam, Values: [1, 2]
+10.0
+
+5
+For: cam, Values: [2]
+100.0
+
+6
+For: cam, Values: [2]
+80.0
+For: cam, Values: [1, 2]
+20.0
+
+7
+For: cam, Values: [2]
+100.0
+
+8
+For: cam, Values: [2]
+90.0
+For: cam, Values: [1, 2]
+10.0
+
+jedit-4.1
+0
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+1
+For: amc, Values: [1]
+100.0
+
+2
+For: amc, Values: [1]
+100.0
+
+3
+For: amc, Values: [1]
+100.0
+
+4
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+5
+For: amc, Values: [1]
+100.0
+
+6
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+7
+For: amc, Values: [1]
+100.0
+
+8
+For: amc, Values: [1]
+100.0
+
+jedit-4.2
+0
+For: mfa, Values: [1]
+100.0
+
+1
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+2
+For: noc, Values: [1]
+100.0
+
+3
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 4]
+10.0
+
+4
+For: cam, Values: [2]
+80.0
+For: cam, Values: [2, 3]
+10.0
+For: cam, Values: [2, 4]
+10.0
+
+5
+For: noc, Values: [1]
+100.0
+
+6
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+7
+For: noc, Values: [1]
+100.0
+
+8
+For: cam, Values: [2]
+70.0
+For: cam, Values: [2, 3]
+30.0
+
+jedit-4.3
+0
+For: lcom3, Values: [3]
+100.0
+
+1
+For: rfc, Values: [4]
+100.0
+
+2
+For: cam, Values: [2]
+100.0
+
+3
+For: rfc, Values: [4]
+100.0
+
+4
+For: lcom3, Values: [3]
+100.0
+
+5
+For: cam, Values: [2]
+80.0
+For: cam, Values: [1, 2]
+20.0
+
+6
+For: rfc, Values: [4]
+100.0
+
+7
+For: cam, Values: [2]
+100.0
+
+8
+For: lcom3, Values: [3]
+100.0
+
+lucene-2.0
+0
+For: mfa, Values: [1]
+100.0
+
+1
+For: mfa, Values: [1]
+100.0
+
+2
+For: mfa, Values: [1]
+100.0
+
+3
+For: mfa, Values: [1]
+100.0
+
+4
+For: mfa, Values: [1]
+100.0
+
+5
+For: mfa, Values: [1]
+100.0
+
+6
+For: mfa, Values: [1]
+100.0
+
+7
+For: mfa, Values: [1]
+100.0
+
+8
+For: mfa, Values: [1]
+100.0
+
+lucene-2.2
+0
+For: amc, Values: [1]
+100.0
+
+1
+For: amc, Values: [1]
+100.0
+
+2
+For: amc, Values: [1]
+100.0
+
+3
+For: cam, Values: [2]
+100.0
+
+4
+For: cam, Values: [2]
+90.0
+For: cam, Values: [1, 2]
+10.0
+
+5
+For: cam, Values: [2]
+100.0
+
+6
+For: cam, Values: [2]
+100.0
+
+7
+For: amc, Values: [1]
+100.0
+
+8
+For: cam, Values: [2]
+100.0
+
+lucene-2.4
+0
+For: amc, Values: [1]
+100.0
+
+1
+For: cam, Values: [2]
+100.0
+
+2
+For: cam, Values: [2]
+100.0
+
+3
+For: cam, Values: [1, 2]
+10.0
+For: cam, Values: [2]
+90.0
+
+4
+For: amc, Values: [1]
+100.0
+
+5
+For: cam, Values: [2]
+90.0
+For: cam, Values: [1, 2]
+10.0
+
+6
+For: amc, Values: [1]
+100.0
+
+7
+For: amc, Values: [1]
+100.0
+
+8
+For: cam, Values: [2]
+100.0
+
+poi-1.5
+0
+For: amc, Values: [1]
+100.0
+
+1
+For: amc, Values: [1]
+100.0
+
+2
+For: cam, Values: [2]
+100.0
+
+3
+For: amc, Values: [1]
+100.0
+
+4
+For: amc, Values: [1]
+80.0
+For: amc, Values: [1, 4]
+20.0
+
+5
+For: amc, Values: [1, 4]
+10.0
+For: amc, Values: [1]
+90.0
+
+6
+For: cam, Values: [2]
+100.0
+
+7
+For: cam, Values: [2]
+80.0
+For: cam, Values: [1, 2]
+20.0
+
+8
+For: cam, Values: [2]
+100.0
+
+poi-2.0
+0
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+1
+For: cam, Values: [2]
+100.0
+
+2
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+3
+For: ce, Values: [4]
+100.0
+
+4
+For: cam, Values: [2]
+100.0
+
+5
+For: cam, Values: [2]
+100.0
+
+6
+For: cam, Values: [2]
+80.0
+For: cam, Values: [2, 3]
+20.0
+
+7
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+8
+For: cam, Values: [2]
+100.0
+
+poi-2.5
+0
+For: cam, Values: [2]
+100.0
+
+1
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+2
+For: cam, Values: [2]
+90.0
+For: cam, Values: [1, 2]
+10.0
+
+3
+For: cam, Values: [2]
+80.0
+For: cam, Values: [2, 3]
+10.0
+For: cam, Values: [2, 4]
+10.0
+
+4
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 4]
+10.0
+
+5
+For: cam, Values: [2]
+100.0
+
+6
+For: mfa, Values: [1]
+100.0
+
+7
+For: cam, Values: [2]
+70.0
+For: cam, Values: [2, 4]
+10.0
+For: cam, Values: [2, 3]
+20.0
+
+8
+For: cam, Values: [2]
+100.0
+
+poi-3.0
+0
+For: cam, Values: [2]
+100.0
+
+1
+For: amc, Values: [1]
+100.0
+
+2
+For: cam, Values: [2]
+100.0
+
+3
+For: cam, Values: [2]
+80.0
+For: cam, Values: [2, 3]
+10.0
+For: cam, Values: [1, 2]
+10.0
+
+4
+For: cam, Values: [2]
+100.0
+
+5
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+6
+For: amc, Values: [1]
+100.0
+
+7
+For: amc, Values: [1]
+100.0
+
+8
+For: amc, Values: [1]
+90.0
+For: amc, Values: [1, 4]
+10.0
+
+synapse-1.2
+0
+For: cam, Values: [2]
+100.0
+
+1
+For: cam, Values: [2, 3]
+10.0
+For: cam, Values: [2]
+90.0
+
+2
+For: lcom3, Values: [3]
+100.0
+
+3
+For: cam, Values: [2]
+100.0
+
+4
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+5
+For: lcom3, Values: [3]
+100.0
+
+6
+For: lcom3, Values: [3]
+100.0
+
+7
+For: cbm, Values: [1]
+100.0
+
+8
+For: lcom3, Values: [3]
+100.0
+
+velocity-1.4
+0
+For: noc, Values: [1]
+100.0
+
+1
+For: lcom3, Values: [3]
+70.0
+For: lcom3, Values: [1, 3]
+30.0
+
+2
+For: noc, Values: [1]
+100.0
+
+3
+For: lcom3, Values: [1, 3]
+30.0
+For: lcom3, Values: [3]
+70.0
+
+4
+For: lcom3, Values: [3]
+60.0
+For: lcom3, Values: [1, 3]
+40.0
+
+5
+For: lcom3, Values: [3]
+60.0
+For: lcom3, Values: [1, 3]
+40.0
+
+6
+For: lcom3, Values: [1, 3]
+60.0
+For: lcom3, Values: [3]
+40.0
+
+7
+For: lcom3, Values: [3]
+50.0
+For: lcom3, Values: [1, 3]
+50.0
+
+8
+For: noc, Values: [1]
+100.0
+
+velocity-1.5
+0
+For: cbm, Values: [1]
+100.0
+
+1
+For: lcom3, Values: [3]
+70.0
+For: lcom3, Values: [1, 3]
+30.0
+
+2
+For: lcom3, Values: [3]
+90.0
+For: lcom3, Values: [1, 3]
+10.0
+
+3
+For: lcom3, Values: [3]
+80.0
+For: lcom3, Values: [1, 3]
+20.0
+
+4
+For: cbm, Values: [1]
+100.0
+
+5
+For: noc, Values: [1]
+100.0
+
+6
+For: cbm, Values: [1]
+100.0
+
+7
+For: noc, Values: [1]
+100.0
+
+8
+For: cbm, Values: [1]
+100.0
+
+velocity-1.6
+0
+For: noc, Values: [1]
+100.0
+
+1
+For: noc, Values: [1]
+100.0
+
+2
+For: dam, Values: [3]
+100.0
+
+3
+For: noc, Values: [1]
+100.0
+
+4
+For: noc, Values: [1]
+100.0
+
+5
+For: noc, Values: [1]
+100.0
+
+6
+For: noc, Values: [1]
+100.0
+
+7
+For: moa, Values: [1]
+100.0
+
+8
+For: dam, Values: [3]
+100.0
+
+xalan-2.4
+0
+For: cam, Values: [2]
+100.0
+
+1
+For: amc, Values: [1]
+100.0
+
+2
+For: mfa, Values: [1]
+100.0
+
+3
+For: amc, Values: [1]
+100.0
+
+4
+For: noc, Values: [1]
+100.0
+
+5
+For: cam, Values: [2]
+100.0
+
+6
+For: noc, Values: [1]
+100.0
+
+7
+For: cam, Values: [2]
+90.0
+For: cam, Values: [1, 2]
+10.0
+
+8
+For: amc, Values: [1]
+100.0
+
+xalan-2.5
+0
+For: cam, Values: [2]
+70.0
+For: cam, Values: [2, 4]
+20.0
+For: cam, Values: [2, 3, 4]
+10.0
+
+1
+For: lcom3, Values: [3]
+80.0
+For: lcom3, Values: [2, 3]
+20.0
+
+2
+For: lcom3, Values: [3]
+80.0
+For: lcom3, Values: [2, 3]
+20.0
+
+3
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+4
+For: amc, Values: [1]
+80.0
+For: amc, Values: [1, 4]
+20.0
+
+5
+For: cam, Values: [2]
+100.0
+
+6
+For: amc, Values: [1]
+90.0
+For: amc, Values: [1, 4]
+10.0
+
+7
+For: cam, Values: [2]
+100.0
+
+8
+For: cam, Values: [2]
+100.0
+
+xalan-2.6
+0
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+1
+For: rfc, Values: [3]
+100.0
+
+2
+For: cam, Values: [2]
+80.0
+For: cam, Values: [2, 3, 4]
+10.0
+For: cam, Values: [2, 4]
+10.0
+
+3
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+4
+For: rfc, Values: [3]
+100.0
+
+5
+For: amc, Values: [1]
+80.0
+For: amc, Values: [1, 2]
+20.0
+
+6
+For: cam, Values: [2]
+80.0
+For: cam, Values: [1, 2]
+10.0
+For: cam, Values: [2, 3]
+10.0
+
+7
+For: cam, Values: [2]
+90.0
+For: cam, Values: [1, 2]
+10.0
+
+8
+For: amc, Values: [1]
+100.0
+
+xalan-2.7
+0
+For: cam, Values: [2]
+80.0
+For: cam, Values: [2, 3]
+10.0
+For: cam, Values: [2, 4]
+10.0
+
+1
+For: rfc, Values: [4]
+100.0
+
+2
+For: cam, Values: [2]
+80.0
+For: cam, Values: [1, 2]
+10.0
+For: cam, Values: [2, 3]
+10.0
+
+3
+For: amc, Values: [1]
+60.0
+For: amc, Values: [1, 2]
+40.0
+
+4
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 4]
+10.0
+
+5
+For: cam, Values: [2]
+100.0
+
+6
+For: cam, Values: [2]
+70.0
+For: cam, Values: [2, 4]
+20.0
+For: cam, Values: [1, 2]
+10.0
+
+7
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+8
+For: amc, Values: [1]
+100.0
+
+xerces-1.2
+0
+For: cam, Values: [2, 3]
+10.0
+For: cam, Values: [2]
+90.0
+
+1
+For: max_cc, Values: [1]
+100.0
+
+2
+For: max_cc, Values: [1]
+100.0
+
+3
+For: max_cc, Values: [1]
+100.0
+
+4
+For: max_cc, Values: [1]
+100.0
+
+5
+For: cam, Values: [2]
+100.0
+
+6
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+7
+For: cam, Values: [2]
+100.0
+
+8
+For: max_cc, Values: [1]
+100.0
+
+xerces-1.3
+0
+For: mfa, Values: [1]
+100.0
+
+1
+For: mfa, Values: [1]
+100.0
+
+2
+For: cam, Values: [1, 2]
+10.0
+For: cam, Values: [2]
+90.0
+
+3
+For: mfa, Values: [1]
+100.0
+
+4
+For: mfa, Values: [1]
+100.0
+
+5
+For: amc, Values: [1]
+100.0
+
+6
+For: mfa, Values: [1]
+100.0
+
+7
+For: cam, Values: [2]
+90.0
+For: cam, Values: [2, 3]
+10.0
+
+8
+For: rfc, Values: [4]
+100.0
+
+xerces-1.4
+0
+For: cam, Values: [2]
+100.0
+
+1
+For: amc, Values: [1]
+100.0
+
+2
+For: cam, Values: [2, 3]
+30.0
+For: cam, Values: [2]
+60.0
+For: cam, Values: [2, 4]
+10.0
+
+3
+For: cam, Values: [2]
+90.0
+For: cam, Values: [1, 2]
+10.0
+
+4
+For: cam, Values: [2]
+100.0
+
+5
+For: cam, Values: [2]
+80.0
+For: cam, Values: [1, 2]
+20.0
+
+6
+For: cam, Values: [2]
+90.0
+For: cam, Values: [1, 2]
+10.0
+
+7
+For: cam, Values: [2]
+100.0
+
+8
+For: amc, Values: [1]
+100.0
+
