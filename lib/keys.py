@@ -16,7 +16,8 @@ def keys2(data, headers):
     score = []
     score.append(median(transpose(data)[-1]))
     treatment = []
-
+    worth_something = []
+    
     while True:
         best = sorted(datar[i], key=lambda datum: datum[-1])[0:int(round(len(datar[i])*enough))]
 
@@ -43,30 +44,33 @@ def keys2(data, headers):
                     if (b/B) > (r/R):
                         tmp = ((b/B)**2)/((b/B) + (r/R))
                         #print "tmp", tmp
+                        #worth_something.append(rx)
                         if tmp > wow:
                             wow = tmp
-                            rx = (a, v)
+                            rx = (a,v)
                             #print "setting rx"
                             #print "RX", rx
-                            if len(treatment) == 0:
-                                treatment.append(rx)
 
         i += 1
         datar.append([datum for datum in datar[i-1] if datum[headers.index(rx[0])] == rx[1]])
         #print len(datar[i])
         score.append(median(transpose(datar[i])[-1]))
+        #print score
+        #print treatment
         if len(datar[i]) == 0:
             #print "breaking 1"
             break
         elif len(datar[i]) == len(datar[i-1]):
             #print "breaking 2"
             break
-        elif not score[i] > score[i-1]:
+        elif not score[i] < score[i-1]:
             #print "breaking 3"
             break
         else:
-            print "setting awesome treatment"
-            treatment.append(rx)
+            #print "setting awesome treatment"
+            treatment.insert(0, rx)
+        #print "looping"
+    #print worth_something
     return treatment
 
 
