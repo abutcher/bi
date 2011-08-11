@@ -49,14 +49,14 @@ def keys2(data, headers):
                             wow = tmp
                             rx = (a,v)
                             #print "setting rx"
-                            #print "RX", rx
+                            print "RX", rx
 
         i += 1
         datar.append([datum for datum in datar[i-1] if datum[headers.index(rx[0])] == rx[1]])
         #print len(datar[i])
         score.append(median(transpose(datar[i])[-1]))
-        #print score
-        #print treatment
+        print score
+        print treatment
         if len(datar[i]) == 0:
             #print "breaking 1"
             break
@@ -67,9 +67,9 @@ def keys2(data, headers):
             #print "breaking 3"
             break
         else:
-            #print "setting awesome treatment"
+            print "setting awesome treatment"
             treatment.insert(0, rx)
-        #print "looping"
+        print "looping"
     #print worth_something
     return treatment
 
@@ -81,4 +81,3 @@ if __name__ == "__main__":
     #arff.data = remove_column(arff.data, 0)
     #arff.headers.remove("version")    
     print keys2(arff.data, arff.headers)
-    
