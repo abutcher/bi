@@ -9,7 +9,6 @@ import matplotlib
 matplotlib.use('WXAgg')
 import matplotlib.pyplot as plt
 
-
 def empiricalcdf(data, method='Hazen'):
     i = np.argsort(np.argsort(data)) + 1
     nobs = len(data)

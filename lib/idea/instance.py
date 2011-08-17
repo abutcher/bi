@@ -23,30 +23,22 @@ class InstanceCollection:
 		self.datums = data_collection.datums
 		
 		east, west = data_collection.exhaustive_find_poles()
-		#east, west = data_collection.find_poles()
+
 		d = distance(east, west)
-		#for i in range(30):
-		#	n_east, n_west = data_collection.find_poles()
-		#	if distance(n_east, n_west) > d:
-		#		east = n_east
-		#		west = n_west
-		#		d = distance(east, west)
-		#
 		self.east = east
 		self.west = west
 		count = 0
 		while not self.finish_instances():
 			count += 1
-		#print "COUNT,", count
 
 	def finish_instances(self):
 		completed = True
-		base_d = distance(self.east, self.west)
+		c = distance(self.east, self.west)
 		for datum in self.datums:
 			a = distance(self.west, datum)
 			b = distance(self.east, datum)
-			if distance(self.east, datum) > distance(self.east, self.west) or distance(self.west,datum) > distance(self.east, self.west):
-				if distance(self.east,datum) > distance(self.west, datum):
+			if b > c or a > c:
+				if b > a:
 					self.datums.append(self.west)
 					self.west = datum
 					self.datums.remove(datum)
@@ -57,7 +49,7 @@ class InstanceCollection:
 				completed = False
 				self.instances = []
 				break
-			x = (b**2 - base_d**2 - a**2) / (-2 * base_d)
+			x = (b**2 - c**2 - a**2) / (-2 * c)
 			if x > self.max_x:
 				self.max_x = x
 			try:
@@ -175,4 +167,3 @@ class DataCollection:
 					d[0] = distance(datum, other_datum)
 					d[1] = (datum, other_datum)
 		return d[1][0], d[1][1]
-	

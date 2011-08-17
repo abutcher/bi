@@ -3,7 +3,6 @@ from arff import *
 from copy import deepcopy
 from discretize import *
 
-
 def keys2(data, headers):
     enough = .33
     too_small = 3

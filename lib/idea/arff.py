@@ -25,7 +25,6 @@ class Arff:
             self.extract(filename)
             self.extract_headers(filename)
             self.name = filename.split('/')[-1].split(".arff")[0]
-        #self.headers.insert(0, "dataset")
         
     def extract(self, path):
         try:
@@ -38,7 +37,6 @@ class Arff:
                 for i in range(len(row)):
                     if isnumeric(row[i]):
                         row[i] = float(row[i])
-                #row.insert(0, path)
                 self.data.append(row)
 
     def extract_headers(self, path):

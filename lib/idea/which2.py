@@ -84,17 +84,6 @@ class Rule:
         self.ands = []
         self.score = score
 
-    """
-    def __init__(self, klass, rule, headers, datums):
-        self.klass = klass
-        self.support = None
-        self.utils = []
-        self.marked = None
-        self.avgs = []
-        self.ands = [Ors(rule[0], [rule[1]])]
-        self.score = self.scoren(headers, datums)
-    """
-
     def describe(self):
         ands = ""
         for a in self.ands:
